@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -22,9 +23,17 @@ public class WorkoutController {
     @Autowired
     private UserService userService;
 
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Workout> findAllWorkoutsByUser(HttpSession session) {
         User user = userService.findById((Long) session.getAttribute("userID"));
         return workoutService.findAllByUser(user);
+    }
+
+    @RequestMapping(value = "/addWorkout",method = RequestMethod.GET)
+    public void addWorkout( HttpSession session) {
+        LocalDateTime date = LocalDateTime.now();
+        workoutService.save(new Workout(date,userService.findById((Long)session.getAttribute("id"))));
+
     }
 }

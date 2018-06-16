@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface WorkoutService {
     List<Workout> findAllByUser(User user);
+    void save(Workout workout);
 }

@@ -1,6 +1,7 @@
 package com.fitness.capitol.gym.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -11,10 +12,14 @@ public class Workout {
     @GeneratedValue
     private Long id;
 
-    private Date date;
+    private LocalDateTime date;
 
     @JoinColumn
     @ManyToOne
     private User user;
 
+    public Workout(LocalDateTime date, User user) {
+        this.date = date;
+        this.user = user;
+    }
 }

@@ -14,7 +14,11 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Autowired
     private WorkoutRepository workoutRepository;
 
-    public List<Workout> findAllByUser(User user){
+    public List<Workout> findAllByUser(User user) {
         return workoutRepository.findAllByUser(user);
+    }
+
+    public void save(Workout workout) {
+        workoutRepository.save(workout);
     }
 }
