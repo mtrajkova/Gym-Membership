@@ -21,4 +21,9 @@ public class WorkoutServiceImpl implements WorkoutService {
     public void save(Workout workout) {
         workoutRepository.save(workout);
     }
+
+    @Override
+    public List<Workout> findByUserId(Long id) {
+        return workoutRepository.findByUserId(id);
+    }
 }
