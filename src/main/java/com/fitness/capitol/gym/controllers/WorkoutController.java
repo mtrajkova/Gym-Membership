@@ -5,10 +5,7 @@ import com.fitness.capitol.gym.model.Workout;
 import com.fitness.capitol.gym.service.UserService;
 import com.fitness.capitol.gym.service.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -26,14 +23,13 @@ public class WorkoutController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Workout> findAllWorkoutsByUser(HttpSession session) {
-        User user = userService.findById((Long) session.getAttribute("userID"));
-        return workoutService.findAllByUser(user);
+        return workoutService.findAllByUser((User)session.getAttribute("user"));
     }
 
-    @RequestMapping(value = "/addWorkout",method = RequestMethod.GET)
+    @RequestMapping(value = "/addWorkout",method = RequestMethod.POST)
     public void addWorkout( HttpSession session) {
         LocalDateTime date = LocalDateTime.now();
-        workoutService.save(new Workout(date,userService.findById((Long)session.getAttribute("id"))));
+        workoutService.save(new Workout(date,(User)session.getAttribute("user")));
 
     }
 }

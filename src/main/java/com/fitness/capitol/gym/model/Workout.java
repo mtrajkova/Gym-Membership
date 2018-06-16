@@ -18,6 +18,10 @@ public class Workout {
     @ManyToOne
     private User user;
 
+    public Workout(){
+        this.date = LocalDateTime.now();
+    }
+
     public Workout(LocalDateTime date, User user) {
         this.date = date;
         this.user = user;
