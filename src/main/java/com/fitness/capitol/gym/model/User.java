@@ -15,17 +15,22 @@ public class User {
 
     private String name;
     private String phone;
+
+
+    private String password;
     private int credits;
     private boolean isAdmin;
     private LocalDateTime dateJoined;
 
-    public User(){}
-    public User(String name, String phone,  boolean isAdmin) {
+    public User() {
+    }
+
+    public User(String name, String phone, boolean isAdmin) {
         this.name = name;
         this.phone = phone;
         this.credits = 0;
         this.isAdmin = isAdmin;
-        LocalDateTime date =  LocalDateTime.now();
+        LocalDateTime date = LocalDateTime.now();
         this.dateJoined = date;
 
     }
@@ -76,5 +81,13 @@ public class User {
 
     public void setDateJoined(LocalDateTime dateJoined) {
         this.dateJoined = dateJoined;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
