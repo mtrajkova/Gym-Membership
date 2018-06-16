@@ -16,6 +16,8 @@ public class User {
     private String name;
     private String phone;
 
+    @Column(unique = true)
+    private String username;
 
     private String password;
     private int credits;
