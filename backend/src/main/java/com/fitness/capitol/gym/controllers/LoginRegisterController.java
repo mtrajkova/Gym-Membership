@@ -1,13 +1,12 @@
 package com.fitness.capitol.gym.controllers;
 
 
-import com.fitness.capitol.gym.excpetions.InvalidLoginCredentialsException;
-import com.fitness.capitol.gym.excpetions.UserAlreadyExistsException;
-import com.fitness.capitol.gym.excpetions.UserParameterNotFoundException;
 import com.fitness.capitol.gym.model.User;
 import com.fitness.capitol.gym.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,44 +21,34 @@ public class LoginRegisterController {
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public User login(@RequestParam("username") String username, @RequestParam("password") String password) throws InvalidLoginCredentialsException {
-        User user = userService.findByUsername(username);
-        if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-            return user;
-        } else {
-            throw new InvalidLoginCredentialsException("Wrong login credentials");
+    public ResponseEntity login(@RequestParam("username") String username,
+                                @RequestParam("password") String password) {
+        User user;
+        try {
+            user = userService.findByLoginCredentials(username, password);
+            return ResponseEntity.status(HttpStatus.OK).body(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public void register(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("phone") String phone, @RequestParam("name") String name) throws UserParameterNotFoundException, UserAlreadyExistsException {
+    public ResponseEntity register(@RequestParam("username") String username,
+                                   @RequestParam("password") String password,
+                                   @RequestParam("phone") String phone,
+                                   @RequestParam("name") String name) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setPhone(phone);
+        user.setName(name);
+        user.setDateJoined(LocalDateTime.now());
+        try {
+            userService.save(user);
+            return ResponseEntity.status(HttpStatus.OK).body("User saved");
 
-        User user = userService.findByUsername(username);
-        if (!checkUserParameters(username, password, phone, name)) {
-            throw new UserParameterNotFoundException("User parameters are not complete");
-        } else if (!userExists(user)) {
-            throw new UserAlreadyExistsException("User already exists");
-        } else {
-            User newUser = new User();
-            newUser.setName(name);
-            newUser.setDateJoined(LocalDateTime.now());
-            newUser.setPassword(password);
-            newUser.setUsername(username);
-            newUser.setAdmin(false);
-            newUser.setPhone(phone);
-            userService.save(newUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
-    private boolean checkUserParameters(String username, String password, String phone, String name) {
-        return username != null &&
-                password != null &&
-                phone != null &&
-                name != null;
-    }
-
-    private boolean userExists(User user) {
-        return user != null;
-    }
-
 }
