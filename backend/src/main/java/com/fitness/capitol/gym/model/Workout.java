@@ -51,4 +51,8 @@ public class Workout implements Serializable {
 
         return Objects.hash(id, date, user);
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

@@ -44,6 +44,7 @@ public class WorkoutController {
        else {
            workout.setUser(user);
            workoutService.save(workout);
+           session.setAttribute("workout", workout);
        }
 
     }

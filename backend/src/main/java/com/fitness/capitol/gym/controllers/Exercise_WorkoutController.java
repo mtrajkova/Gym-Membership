@@ -7,24 +7,25 @@ import com.fitness.capitol.gym.service.Workout_ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/exercise")
+@RequestMapping(value = "/exercises")
 public class Exercise_WorkoutController {
 
     @Autowired
     private Workout_ExerciseService workout_exerciseService;
 
-    @RequestMapping(value = "/{workout}/exercises",method = RequestMethod.GET)
-    public List<Exercise> getAllExercisesByWorkout(@PathVariable("workout")Workout workout){
-        return workout_exerciseService.findAllByWorkout(workout);
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Exercise> getAllExercisesByWorkout(HttpSession session){
+        return workout_exerciseService.findAllByWorkout((Workout)session.getAttribute("workout"));
     }
 
-    @RequestMapping(value = "/{workout}/addExercise",method = RequestMethod.POST)
-    public void saveExercise(@PathVariable("workout")Workout workout, @RequestParam("name") String name){
+    @RequestMapping(value = "/addExercise",method = RequestMethod.POST)
+    public void saveExercise(HttpSession session, @RequestParam("name") String name){
         Exercise exercise = new Exercise(name);
-        workout_exerciseService.saveExerciseForWorkout(new Workout_Exercise(workout,exercise));
+        workout_exerciseService.saveExerciseForWorkout(new Workout_Exercise((Workout)session.getAttribute("workout"),exercise));
     }
 
 }
