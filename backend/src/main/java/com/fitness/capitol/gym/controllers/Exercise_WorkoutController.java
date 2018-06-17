@@ -25,6 +25,7 @@ public class Exercise_WorkoutController {
     @RequestMapping(value = "/addExercise",method = RequestMethod.POST)
     public void saveExercise(HttpSession session, @RequestParam("name") String name){
         Exercise exercise = new Exercise(name);
+
         workout_exerciseService.saveExerciseForWorkout(new Workout_Exercise((Workout)session.getAttribute("workout"),exercise));
     }
 
