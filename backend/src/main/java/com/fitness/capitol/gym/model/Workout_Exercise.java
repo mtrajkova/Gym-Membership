@@ -16,4 +16,19 @@ public class Workout_Exercise {
     @JoinColumn
     @ManyToOne
     private Exercise exercise;
+
+    public Workout_Exercise(Workout workout, Exercise exercise) {
+        this.workout = workout;
+        this.exercise = exercise;
+    }
+
+    public Workout_Exercise(){}
+
+    public Workout getWorkout() {
+        return workout;
+    }
+
+    public Exercise getExercise() {
+        return exercise;
+    }
 }
