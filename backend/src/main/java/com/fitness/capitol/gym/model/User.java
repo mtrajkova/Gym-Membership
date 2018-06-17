@@ -1,14 +1,18 @@
 package com.fitness.capitol.gym.model;
 
 import org.apache.tomcat.jni.Local;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "User")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -99,5 +103,26 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getCredits() == user.getCredits() &&
+                isAdmin() == user.isAdmin() &&
+                Objects.equals(getId(), user.getId()) &&
+                Objects.equals(getName(), user.getName()) &&
+                Objects.equals(getPhone(), user.getPhone()) &&
+                Objects.equals(getUsername(), user.getUsername()) &&
+                Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getDateJoined(), user.getDateJoined());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId(), getName(), getPhone(), getUsername(), getPassword(), getCredits(), isAdmin(), getDateJoined());
     }
 }

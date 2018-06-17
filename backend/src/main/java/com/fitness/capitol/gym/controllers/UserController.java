@@ -12,6 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@SessionAttributes("user")
+
 public class UserController {
     @Autowired
     private UserService userService;
@@ -22,8 +24,10 @@ public class UserController {
     }
 
     @RequestMapping(value="/addUser", method = RequestMethod.POST)
-    public void save(@RequestParam("name") String name, @RequestParam("phone") String phone, @RequestParam("isAdmin") boolean isAdmin){
-        userService.save(new User(name,phone,isAdmin));
+    public void save(@RequestParam("name") String name, @RequestParam("phone") String phone, @RequestParam("isAdmin") boolean isAdmin, HttpSession session){
+        User user = new User(name,phone,isAdmin);
+        userService.save(user);
+        session.setAttribute("user", user.getName());
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
