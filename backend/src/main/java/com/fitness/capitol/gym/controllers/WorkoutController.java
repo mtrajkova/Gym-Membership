@@ -27,25 +27,21 @@ public class WorkoutController {
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Workout> findAllWorkoutsByUser(HttpSession session) {
-        User user = userService.findByName(session.getAttribute("user").toString());
+    public List<Workout> findAllWorkoutsByUser(String username) {
+        User user = userService.findByName(username);
         return workoutService.findAllByUser(user);
     }
 
-    @RequestMapping(value = "/addWorkout",method = RequestMethod.POST)
-    public void addWorkout( HttpSession session) throws UserEmptyException {
-
-
+    @RequestMapping(value = "/addWorkout", method = RequestMethod.POST)
+    public void addWorkout(String username) throws UserEmptyException {
         Workout workout = new Workout();
-        String name = session.getAttribute("user").toString();
-        User user = userService.findByName(name);
-       if(user.getName().isEmpty())
-           throw new UserEmptyException("User empty");
-       else {
-           workout.setUser(user);
-           workoutService.save(workout);
-           session.setAttribute("workout", workout);
-       }
+        User user = userService.findByName(username);
+        if (user.getName().isEmpty())
+            throw new UserEmptyException("User empty");
+        else {
+            workout.setUser(user);
+            workoutService.save(workout);
+        }
 
     }
 }
