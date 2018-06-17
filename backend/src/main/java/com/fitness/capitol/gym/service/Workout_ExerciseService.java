@@ -7,7 +7,7 @@ import com.fitness.capitol.gym.model.Workout_Exercise;
 import java.util.List;
 
 public interface Workout_ExerciseService {
-    List<Exercise> findAllByWorkout(Workout workout);
+    List<Exercise> findAllByWorkoutId(Long id);
     void saveExerciseForWorkout(Workout_Exercise workout_exercise);
 }
 

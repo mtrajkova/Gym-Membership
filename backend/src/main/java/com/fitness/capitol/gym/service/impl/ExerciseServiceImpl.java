@@ -15,4 +15,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     public Exercise findByName(String name) {
         return exerciseRepository.findByName(name);
     }
+
+    @Override
+    public void save(Exercise exercise) {
+        exerciseRepository.save(exercise);
+    }
 }

@@ -4,4 +4,5 @@ import com.fitness.capitol.gym.model.Exercise;
 
 public interface ExerciseService {
     Exercise findByName(String name);
+    void save(Exercise exercise);
 }
