@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin
 @SessionAttributes("user")
 
 public class UserController {
