@@ -55,12 +55,7 @@ public class UserServiceImpl implements UserService {
         if (!checkLoginCredentials(user, password)) {
             throw new InvalidLoginCredentialsException("Invalid user credentials");
         } else if (user == null) {
-            //throw new UserNotFoundException("User was not found");
-            User u = new User();
-            u.setName("test");
-            u.setUsername("testuser");
-            u.setDateJoined(LocalDateTime.now());
-            return u;
+            throw new UserNotFoundException("User was not found");
         } else {
             return user;
         }
