@@ -31,6 +31,7 @@ public class Exercise_WorkoutController {
     @Autowired
     private WorkoutService workoutService;
 
+//    PROBAJ GOOOO OVA **************
     @RequestMapping(method = RequestMethod.GET)
     public List<Exercise> getAllExercisesByWorkout(@RequestParam("workoutId") Long workoutId) {
         return workout_exerciseService.findAllByWorkoutId(workoutId);
