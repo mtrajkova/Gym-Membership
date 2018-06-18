@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "User_Subscription")
-public class User_Subscription implements Serializable {
+public class User_WorkoutSubscription implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
@@ -21,7 +20,7 @@ public class User_Subscription implements Serializable {
 
     @JoinColumn
     @ManyToOne
-    private Subscription subscription;
+    private WorkoutSubscription workoutSubscription;
 
     public Long getId() {
         return id;
@@ -55,29 +54,29 @@ public class User_Subscription implements Serializable {
         this.user = user;
     }
 
-    public Subscription getSubscription() {
-        return subscription;
+    public WorkoutSubscription getWorkoutSubscription() {
+        return workoutSubscription;
     }
 
-    public void setSubscription(Subscription subscription) {
-        this.subscription = subscription;
+    public void setWorkoutSubscription(WorkoutSubscription workoutSubscription) {
+        this.workoutSubscription = workoutSubscription;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User_Subscription)) return false;
-        User_Subscription that = (User_Subscription) o;
+        if (!(o instanceof User_WorkoutSubscription)) return false;
+        User_WorkoutSubscription that = (User_WorkoutSubscription) o;
         return Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getDatePaused(), that.getDatePaused()) &&
                 Objects.equals(getDateStarted(), that.getDateStarted()) &&
                 Objects.equals(getUser(), that.getUser()) &&
-                Objects.equals(getSubscription(), that.getSubscription());
+                Objects.equals(getWorkoutSubscription(), that.getWorkoutSubscription());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getDatePaused(), getDateStarted(), getUser(), getSubscription());
+        return Objects.hash(getId(), getDatePaused(), getDateStarted(), getUser(), getWorkoutSubscription());
     }
 }
