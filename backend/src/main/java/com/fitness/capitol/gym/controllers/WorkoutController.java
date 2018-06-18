@@ -31,10 +31,10 @@ public class WorkoutController {
     private UserService userService;
 
 
-    @RequestMapping(value = "/{name}",method = RequestMethod.GET)
-    public ResponseEntity findAllWorkoutsByUser(@PathVariable("name") String name) throws UserEmptyException {
+    @RequestMapping(value = "/{username}",method = RequestMethod.GET)
+    public ResponseEntity findAllWorkoutsByUser(@PathVariable("username") String username)  {
         try {
-            User user = userService.findByName(name);
+            User user = userService.findByUsername(username);
             return ResponseEntity.status(HttpStatus.OK).body(workoutService.findAllByUser(user));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User does not exist");
@@ -43,17 +43,22 @@ public class WorkoutController {
     }
 
     @RequestMapping(value = "/addWorkout", method = RequestMethod.POST)
-    public ResponseEntity addWorkout(@RequestParam("name") String name) throws UserEmptyException {
-
+    public ResponseEntity addWorkout(@RequestParam("username") String username, @RequestParam("workoutname") String workoutName) {
+        User user;
+        try{
+            user = this.userService.findByUsername(username);
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        Workout workout = new Workout();
+        workout.setUser(user);
+        workout.setWorkoutName(workoutName);
+        workout.setDate(LocalDateTime.now());
         try {
-            Workout workout = new Workout();
-            User user = userService.findByName(name);
-            workout.setDate(LocalDateTime.now());
-            workout.setUser(user);
             workoutService.save(workout);
             return ResponseEntity.status(HttpStatus.OK).body(workout);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User does not exist");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

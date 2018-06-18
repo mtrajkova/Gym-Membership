@@ -27,24 +27,25 @@ public class Exercise_WorkoutController {
     private WorkoutService workoutService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Exercise> getAllExercisesByWorkout(@RequestParam("workoutId") Long workoutId){
+    public List<Exercise> getAllExercisesByWorkout(@RequestParam("workoutId") Long workoutId) {
         return workout_exerciseService.findAllByWorkoutId(workoutId);
     }
 
-    @RequestMapping(value = "/addExercise",method = RequestMethod.POST)
+    @RequestMapping(value = "/addExercise", method = RequestMethod.POST)
     public void addExercise(@RequestParam("workoutId") Long workoutId, @RequestParam("name") String name) {
 
-        Exercise exercise = new Exercise();
-           if(exerciseService.findByName(name)==null){
-               exercise.setName(name);
-               exerciseService.save(exercise);
-           }
-            else{
-               exercise = exerciseService.findByName(name);
-           }
+        Exercise exercise;
+        exercise = exerciseService.findByName(name);
+        if (exercise == null) {
+            exercise = new Exercise();
+            exercise.setName(name);
+            exerciseService.save(exercise);
+        } /*else {
+            exercise = exerciseService.findByName(name);
+        }*/
 
-           Workout workout = workoutService.findById(workoutId);
-            workout_exerciseService.saveExerciseForWorkout(new Workout_Exercise(workout,exercise));
+        Workout workout = workoutService.findById(workoutId);
+        workout_exerciseService.saveExerciseForWorkout(new Workout_Exercise(workout, exercise));
 
 
     }

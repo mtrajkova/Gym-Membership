@@ -8,15 +8,17 @@ import java.util.Objects;
 @Table(name = "Workout_Exercise")
 public class Workout_Exercise implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @JoinColumn
-    @ManyToOne(cascade = CascadeType.ALL)
+   // @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Workout workout;
 
     @JoinColumn
-    @ManyToOne(cascade = CascadeType.ALL)
+   // @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Exercise exercise;
 
     public Workout_Exercise(Workout workout, Exercise exercise) {
@@ -24,14 +26,31 @@ public class Workout_Exercise implements Serializable {
         this.exercise = exercise;
     }
 
-    public Workout_Exercise(){}
+    public Workout_Exercise() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Workout getWorkout() {
         return workout;
     }
 
+    public void setWorkout(Workout workout) {
+        this.workout = workout;
+    }
+
     public Exercise getExercise() {
         return exercise;
+    }
+
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
     }
 
     @Override
@@ -39,26 +58,13 @@ public class Workout_Exercise implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Workout_Exercise)) return false;
         Workout_Exercise that = (Workout_Exercise) o;
-        return Objects.equals(id, that.id) &&
+        return Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getWorkout(), that.getWorkout()) &&
                 Objects.equals(getExercise(), that.getExercise());
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, getWorkout(), getExercise());
-    }
-
-    public void setWorkout(Workout workout) {
-        this.workout = workout;
-    }
-
-    public void setExercise(Exercise exercise) {
-        this.exercise = exercise;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        return Objects.hash(getId(), getWorkout(), getExercise());
     }
 }

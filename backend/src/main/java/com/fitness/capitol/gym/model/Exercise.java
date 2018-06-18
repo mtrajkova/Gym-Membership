@@ -11,29 +11,28 @@ import java.util.Set;
 @Table(name = "Exercise")
 public class Exercise implements Serializable {
     @Id
+    @Column(unique = true)
     private String name;
 
-    public Exercise(String name) {
-        this.name = name;
+    public String getName() {
+        return name;
     }
 
-    public Exercise(){}
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Exercise)) return false;
         Exercise exercise = (Exercise) o;
-        return Objects.equals(name, exercise.name);
+        return Objects.equals(getName(), exercise.getName());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(name);
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return Objects.hash(getName());
     }
 }
