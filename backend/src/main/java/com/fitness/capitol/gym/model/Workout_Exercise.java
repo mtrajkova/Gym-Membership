@@ -8,7 +8,7 @@ import java.util.Objects;
 @Table(name = "Workout_Exercise")
 public class Workout_Exercise implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @JoinColumn

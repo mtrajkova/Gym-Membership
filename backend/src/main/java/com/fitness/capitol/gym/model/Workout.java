@@ -1,19 +1,16 @@
 package com.fitness.capitol.gym.model;
 
-import org.springframework.data.domain.Persistable;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Workout")
 public class Workout implements Serializable{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private LocalDateTime date;
@@ -22,10 +19,6 @@ public class Workout implements Serializable{
     @JoinColumn
     @ManyToOne
     private User user;
-
-
-
-
 
     /*public Workout(){
         this.date = LocalDateTime.now();

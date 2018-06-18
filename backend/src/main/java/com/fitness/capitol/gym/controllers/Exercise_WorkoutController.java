@@ -1,6 +1,5 @@
 package com.fitness.capitol.gym.controllers;
 
-import com.fitness.capitol.gym.excpetions.ExerciseAlreadyExistsException;
 import com.fitness.capitol.gym.model.Exercise;
 import com.fitness.capitol.gym.model.Workout;
 import com.fitness.capitol.gym.model.Workout_Exercise;
@@ -8,9 +7,11 @@ import com.fitness.capitol.gym.service.ExerciseService;
 import com.fitness.capitol.gym.service.WorkoutService;
 import com.fitness.capitol.gym.service.Workout_ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -40,12 +41,13 @@ public class Exercise_WorkoutController {
             exercise = new Exercise();
             exercise.setName(name);
             exerciseService.save(exercise);
-        } /*else {
-            exercise = exerciseService.findByName(name);
-        }*/
+        }
 
         Workout workout = workoutService.findById(workoutId);
-        workout_exerciseService.saveExerciseForWorkout(new Workout_Exercise(workout, exercise));
+        Workout_Exercise workout_exercise = new Workout_Exercise();
+        workout_exercise.setExercise(exercise);
+        workout_exercise.setWorkout(workout);
+        workout_exerciseService.saveExerciseForWorkout(workout_exercise);
 
 
     }
