@@ -7,15 +7,20 @@ import com.fitness.capitol.gym.service.UserService;
 import com.fitness.capitol.gym.service.WorkoutService;
 import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.Transient;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/workouts")
+@RequestMapping(value = "/workouts", produces = MediaType.APPLICATION_JSON_VALUE)
 @SessionAttributes("user")
 
 public class WorkoutController {
@@ -26,22 +31,29 @@ public class WorkoutController {
     private UserService userService;
 
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Workout> findAllWorkoutsByUser(String username) {
-        User user = userService.findByName(username);
-        return workoutService.findAllByUser(user);
+    @RequestMapping(value = "/{name}",method = RequestMethod.GET)
+    public ResponseEntity findAllWorkoutsByUser(@PathVariable("name") String name) throws UserEmptyException {
+        try {
+            User user = userService.findByName(name);
+            return ResponseEntity.status(HttpStatus.OK).body(workoutService.findAllByUser(user));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User does not exist");
+        }
+
     }
 
     @RequestMapping(value = "/addWorkout", method = RequestMethod.POST)
-    public void addWorkout(String username) throws UserEmptyException {
-        Workout workout = new Workout();
-        User user = userService.findByName(username);
-        if (user.getName().isEmpty())
-            throw new UserEmptyException("User empty");
-        else {
+    public ResponseEntity addWorkout(@RequestParam("name") String name) throws UserEmptyException {
+
+        try {
+            Workout workout = new Workout();
+            User user = userService.findByName(name);
+            workout.setDate(LocalDateTime.now());
             workout.setUser(user);
             workoutService.save(workout);
+            return ResponseEntity.status(HttpStatus.OK).body(workout);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User does not exist");
         }
-
     }
 }

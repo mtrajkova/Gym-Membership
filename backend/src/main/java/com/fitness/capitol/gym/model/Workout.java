@@ -19,14 +19,14 @@ public class Workout implements Serializable {
     @ManyToOne
     private User user;
 
-    public Workout(){
+    /*public Workout(){
         this.date = LocalDateTime.now();
     }
 
     public Workout(LocalDateTime date, User user) {
         this.date = date;
         this.user = user;
-    }
+    }*/
 
     public void setDate(LocalDateTime date) {
         this.date = date;
