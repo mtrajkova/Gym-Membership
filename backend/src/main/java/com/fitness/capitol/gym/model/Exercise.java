@@ -11,6 +11,8 @@ import java.util.Set;
 @Table(name = "Exercise")
 public class Exercise implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     @Column(unique = true)
     private String name;
 
@@ -22,17 +24,26 @@ public class Exercise implements Serializable {
         this.name = name;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Exercise)) return false;
         Exercise exercise = (Exercise) o;
-        return Objects.equals(getName(), exercise.getName());
+        return Objects.equals(getId(), exercise.getId()) &&
+                Objects.equals(getName(), exercise.getName());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getName());
+        return Objects.hash(getId(), getName());
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Workout_Exercise implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long workoutExerciseId;
 
     @JoinColumn
    // @ManyToOne(cascade = CascadeType.ALL)
@@ -29,12 +29,12 @@ public class Workout_Exercise implements Serializable {
     public Workout_Exercise() {
     }
 
-    public Long getId() {
-        return id;
+    public Long getWorkoutExerciseId() {
+        return workoutExerciseId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setWorkoutExerciseId(Long workoutExerciseId) {
+        this.workoutExerciseId = workoutExerciseId;
     }
 
     public Workout getWorkout() {
@@ -58,13 +58,13 @@ public class Workout_Exercise implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Workout_Exercise)) return false;
         Workout_Exercise that = (Workout_Exercise) o;
-        return Objects.equals(getId(), that.getId()) &&
+        return Objects.equals(getWorkoutExerciseId(), that.getWorkoutExerciseId()) &&
                 Objects.equals(getWorkout(), that.getWorkout()) &&
                 Objects.equals(getExercise(), that.getExercise());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getWorkout(), getExercise());
+        return Objects.hash(getWorkoutExerciseId(), getWorkout(), getExercise());
     }
 }
