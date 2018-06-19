@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface Exercise_WorkoutRepository extends JpaRepository<Workout_Exercise,Long> {
-    List<Exercise> findAllByWorkoutId(Long id);
+    List<Workout_Exercise> findAllByWorkout(Workout workout);
 }

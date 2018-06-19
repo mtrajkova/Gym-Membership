@@ -16,8 +16,8 @@ public class Workout_ExerciseServiceImpl implements Workout_ExerciseService {
     private Exercise_WorkoutRepository exercise_workoutRepository;
 
     @Override
-    public List<Exercise> findAllByWorkoutId(Long id) {
-        return exercise_workoutRepository.findAllByWorkoutId(id);
+    public List<Workout_Exercise> findAllByWorkout(Workout workout) {
+        return exercise_workoutRepository.findAllByWorkout(workout);
     }
 
     @Override
