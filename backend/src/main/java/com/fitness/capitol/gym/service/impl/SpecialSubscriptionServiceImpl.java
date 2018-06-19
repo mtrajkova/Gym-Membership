@@ -17,4 +17,9 @@ public class SpecialSubscriptionServiceImpl implements SpecialSubscriptionServic
     public List<SpecialSubscription> findAll() {
         return specialSubscriptionRepository.findAll();
     }
+
+    @Override
+    public void save(SpecialSubscription specialSubscription) {
+        specialSubscriptionRepository.save(specialSubscription);
+    }
 }

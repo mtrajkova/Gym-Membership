@@ -17,4 +17,9 @@ public class NormalSubscriptionServiceImpl implements NormalSubscriptionService 
     public List<NormalSubscription> findAll() {
         return normalSubscriptionRepository.findAll();
     }
+
+    @Override
+    public void save(NormalSubscription normalSubscription) {
+        normalSubscriptionRepository.save(normalSubscription);
+    }
 }
