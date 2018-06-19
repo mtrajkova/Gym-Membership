@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface NormalSubscriptionService {
     List<NormalSubscription> findAll();
+
+    void save(NormalSubscription normalSubscription);
 }
 

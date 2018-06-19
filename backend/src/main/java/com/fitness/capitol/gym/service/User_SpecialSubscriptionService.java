@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface User_SpecialSubscriptionService {
     List<SpecialSubscription> getAllSpecialsByUser(User user);
+
+    void save(SpecialSubscription specialSubscription, User user);
 }

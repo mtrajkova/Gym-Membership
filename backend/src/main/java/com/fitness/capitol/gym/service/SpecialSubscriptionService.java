@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SpecialSubscriptionService {
     List<SpecialSubscription> findAll();
+    void save(SpecialSubscription specialSubscription);
 }

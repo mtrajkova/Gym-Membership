@@ -63,6 +63,11 @@ public class SpecialSubscription extends Subscription implements Serializable {
         this.durationMonths = durationMonths;
     }
 
+    public void setSuper(String name, Long price){
+        super.setName(name);
+        super.setPrice(price);
+    }
+
 
     @Override
     public boolean equals(Object o) {

@@ -9,4 +9,6 @@ import java.util.List;
 public interface User_NormalSubscriptionService {
     List<NormalSubscription> getAllNormalsByUser(User user);
 
+    void save(NormalSubscription normalSubscription, User user);
+
 }
