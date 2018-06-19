@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface User_NormalSubscriptionRepository extends JpaRepository<User_NormalSubscription, Long> {
-    List<NormalSubscription> findAllByUser(User user);
+    List<User_NormalSubscription> findAllByUser(User user);
 
 }

@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface User_SpecialSubscriptionRepository extends JpaRepository<User_SpecialSubscription,Long> {
-    List<SpecialSubscription> findAllByUser(User user);
+    List<User_SpecialSubscription> findAllByUser(User user);
 
 }
