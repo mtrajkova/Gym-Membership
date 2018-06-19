@@ -31,4 +31,9 @@ public class PostServiceImpl implements PostService {
         post.setUser((User)userRepository.findByUsername(username));
         postRepository.save(post);
     }
+
+    @Override
+    public Post findByTitle(String title) {
+        return postRepository.findByTitle(title);
+    }
 }
