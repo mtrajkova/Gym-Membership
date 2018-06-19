@@ -1,10 +1,7 @@
 package com.fitness.capitol.gym.controllers;
 
 import com.fitness.capitol.gym.model.SpecialSubscription;
-import com.fitness.capitol.gym.model.WorkoutSubscription;
-import com.fitness.capitol.gym.persistance.WorkoutSubscriptionRepository;
 import com.fitness.capitol.gym.service.SpecialSubscriptionService;
-import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +22,11 @@ public class SpecialSubscriptionController {
     }
 
     @RequestMapping(value = "/addSpecialSubscription", method = RequestMethod.POST)
-    public void saveWorkoutSubscription(@RequestParam("months") int months, @RequestParam("name") String name, @RequestParam("price") Long price, @RequestParam("startDate") String start, @RequestParam("endDate") String end) {
+    public void saveWorkoutSubscription(@RequestParam("months") int months,
+                                        @RequestParam("name") String name,
+                                        @RequestParam("price") Long price,
+                                        @RequestParam("startDate") String start,
+                                        @RequestParam("endDate") String end) {
         String[] parts = start.split("\\.");
         Date startDate = new Date();
         long time = 0;

@@ -31,14 +31,15 @@ public class Exercise_WorkoutController {
     @Autowired
     private WorkoutService workoutService;
 
-//    PROBAJ GOOOO OVA **************
+    //    PROBAJ GOOOO OVA **************
     @RequestMapping(method = RequestMethod.GET)
     public List<Exercise> getAllExercisesByWorkout(@RequestParam("workoutId") Long workoutId) {
         return workout_exerciseService.findAllByWorkoutId(workoutId);
     }
 
     @RequestMapping(value = "/addExercise", method = RequestMethod.POST)
-    public ResponseEntity addExercise(@RequestParam("workoutId") Long workoutId, @RequestParam("name") String name) throws ExerciseAlreadyExistsException {
+    public ResponseEntity addExercise(@RequestParam("workoutId") Long workoutId,
+                                      @RequestParam("name") String name) throws ExerciseAlreadyExistsException {
 
         Exercise exercise;
         try {

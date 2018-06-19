@@ -15,13 +15,15 @@ public class WorkoutSubscriptionController {
     private WorkoutSubscriptionRepository workoutSubscriptionRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<WorkoutSubscription> getAllWorkoutSubscriptions(){
+    public List<WorkoutSubscription> getAllWorkoutSubscriptions() {
         return workoutSubscriptionRepository.findAll();
     }
 
     @RequestMapping(value = "/addWorkoutSubscription", method = RequestMethod.POST)
-    public void saveWorkoutSubscription(@RequestParam("days") int days,@RequestParam("price") Long price, @RequestParam("name") String name){
-        WorkoutSubscription workoutSubscription = new WorkoutSubscription(days,name,price);
+    public void saveWorkoutSubscription(@RequestParam("days") int days,
+                                        @RequestParam("price") Long price,
+                                        @RequestParam("name") String name) {
+        WorkoutSubscription workoutSubscription = new WorkoutSubscription(days, name, price);
         workoutSubscriptionRepository.save(workoutSubscription);
     }
 

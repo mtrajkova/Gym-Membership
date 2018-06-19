@@ -29,7 +29,12 @@ public class User_SpecialSubscriptionController {
     }
 
     @RequestMapping(value = "/addSubscription", method = RequestMethod.POST)
-    private void addSpecialSubscription(@RequestParam("months") int months, @RequestParam("name") String name, @RequestParam("price") Long price, @RequestParam("username") String username, @RequestParam("startDate") String start, @RequestParam("endDate") String end) {
+    private void addSpecialSubscription(@RequestParam("months") int months,
+                                        @RequestParam("name") String name,
+                                        @RequestParam("price") Long price,
+                                        @RequestParam("username") String username,
+                                        @RequestParam("startDate") String start,
+                                        @RequestParam("endDate") String end) {
         String[] parts = start.split("\\.");
         Date startDate = new Date();
         long time = 0;

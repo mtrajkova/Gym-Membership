@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Workout")
-public class Workout implements Serializable{
+public class Workout implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -19,16 +19,6 @@ public class Workout implements Serializable{
     @JoinColumn
     @ManyToOne
     private User user;
-
-    /*public Workout(){
-        this.date = LocalDateTime.now();
-    }
-
-    public Workout(LocalDateTime date, User user) {
-        this.date = date;
-        this.user = user;
-    }*/
-
 
     public Long getId() {
         return id;

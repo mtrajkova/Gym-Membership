@@ -1,8 +1,5 @@
 package com.fitness.capitol.gym.controllers;
 
-import com.fitness.capitol.gym.model.Subscription;
-import com.fitness.capitol.gym.model.User;
-import com.fitness.capitol.gym.persistance.UserRepository;
 import com.fitness.capitol.gym.service.UserService;
 import com.fitness.capitol.gym.service.User_SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -36,7 +36,8 @@ public class WorkoutController {
     }
 
     @RequestMapping(value = "/addWorkout", method = RequestMethod.POST)
-    public ResponseEntity addWorkout(@RequestParam("username") String username, @RequestParam("workoutname") String workoutName) {
+    public ResponseEntity addWorkout(@RequestParam("username") String username,
+                                     @RequestParam("workoutname") String workoutName) {
         User user;
         try {
             user = this.userService.findByUsername(username);
