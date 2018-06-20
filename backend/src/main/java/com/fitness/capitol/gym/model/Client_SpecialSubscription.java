@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "User_Subscription")
-public class User_Subscription implements Serializable {
+public class Client_SpecialSubscription implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
@@ -17,11 +16,11 @@ public class User_Subscription implements Serializable {
 
     @JoinColumn
     @ManyToOne
-    private User user;
+    private Client client;
 
     @JoinColumn
     @ManyToOne
-    private Subscription subscription;
+    private SpecialSubscription specialSubscription;
 
     public Long getId() {
         return id;
@@ -47,37 +46,37 @@ public class User_Subscription implements Serializable {
         this.dateStarted = dateStarted;
     }
 
-    public User getUser() {
-        return user;
+    public Client getClient() {
+        return client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public Subscription getSubscription() {
-        return subscription;
+    public SpecialSubscription getSpecialSubscription() {
+        return specialSubscription;
     }
 
-    public void setSubscription(Subscription subscription) {
-        this.subscription = subscription;
+    public void setSpecialSubscription(SpecialSubscription specialSubscription) {
+        this.specialSubscription = specialSubscription;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User_Subscription)) return false;
-        User_Subscription that = (User_Subscription) o;
+        if (!(o instanceof Client_SpecialSubscription)) return false;
+        Client_SpecialSubscription that = (Client_SpecialSubscription) o;
         return Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getDatePaused(), that.getDatePaused()) &&
                 Objects.equals(getDateStarted(), that.getDateStarted()) &&
-                Objects.equals(getUser(), that.getUser()) &&
-                Objects.equals(getSubscription(), that.getSubscription());
+                Objects.equals(getClient(), that.getClient()) &&
+                Objects.equals(getSpecialSubscription(), that.getSpecialSubscription());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getDatePaused(), getDateStarted(), getUser(), getSubscription());
+        return Objects.hash(getId(), getDatePaused(), getDateStarted(), getClient(), getSpecialSubscription());
     }
 }

@@ -1,6 +1,6 @@
 package com.fitness.capitol.gym.service.impl;
 
-import com.fitness.capitol.gym.model.User;
+import com.fitness.capitol.gym.model.Client;
 import com.fitness.capitol.gym.model.Workout;
 import com.fitness.capitol.gym.persistance.WorkoutRepository;
 import com.fitness.capitol.gym.service.WorkoutService;
@@ -18,8 +18,8 @@ public class WorkoutServiceImpl implements WorkoutService {
     private WorkoutRepository workoutRepository;
 
     @Override
-    public List<Workout> findAllByUser(User user) {
-        return workoutRepository.findAllByUser(user);
+    public List<Workout> findAllByClient(Client client) {
+        return workoutRepository.findAllByClient(client);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     @Override
     public List<Workout> findByUserId(Long id) {
-        return workoutRepository.findByUserId(id);
+        return workoutRepository.findByClientId(id);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public Workout findByDate(Date date, User user) {
-        return workoutRepository.findByDateAndUser(date, user);
+    public Workout findByDate(Date date, Client client) {
+        return workoutRepository.findByDateAndClient(date, client);
     }
 }

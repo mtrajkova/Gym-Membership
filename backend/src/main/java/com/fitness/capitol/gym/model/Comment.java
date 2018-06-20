@@ -14,7 +14,7 @@ public class Comment implements Serializable {
 
     @JoinColumn
     @ManyToOne
-    private User user;
+    private Client client;
 
     @JoinColumn
     @ManyToOne
@@ -41,12 +41,12 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Client getClient() {
+        return client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Post getPost() {
@@ -97,7 +97,7 @@ public class Comment implements Serializable {
         return getDownvotes() == comment.getDownvotes() &&
                 getUpvotes() == comment.getUpvotes() &&
                 Objects.equals(getId(), comment.getId()) &&
-                Objects.equals(getUser(), comment.getUser()) &&
+                Objects.equals(getClient(), comment.getClient()) &&
                 Objects.equals(getPost(), comment.getPost()) &&
                 Objects.equals(getTimestamp(), comment.getTimestamp()) &&
                 Objects.equals(getText(), comment.getText());
@@ -106,6 +106,6 @@ public class Comment implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getUser(), getPost(), getDownvotes(), getUpvotes(), getTimestamp(), getText());
+        return Objects.hash(getId(), getClient(), getPost(), getDownvotes(), getUpvotes(), getTimestamp(), getText());
     }
 }

@@ -1,20 +1,15 @@
 package com.fitness.capitol.gym.model;
 
-import org.apache.tomcat.jni.Local;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "User")
-public class User implements Serializable {
+@Table(name = "Client")
+public class Client implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
@@ -28,10 +23,10 @@ public class User implements Serializable {
     private boolean isAdmin;
     private LocalDateTime dateJoined;
 
-    public User() {
+    public Client() {
     }
 
-    public User(String name, String phone, boolean isAdmin) {
+    public Client(String name, String phone, boolean isAdmin) {
         this.name = name;
         this.phone = phone;
         this.credits = 0;
@@ -108,16 +103,16 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return getCredits() == user.getCredits() &&
-                isAdmin() == user.isAdmin() &&
-                Objects.equals(getId(), user.getId()) &&
-                Objects.equals(getName(), user.getName()) &&
-                Objects.equals(getPhone(), user.getPhone()) &&
-                Objects.equals(getUsername(), user.getUsername()) &&
-                Objects.equals(getPassword(), user.getPassword()) &&
-                Objects.equals(getDateJoined(), user.getDateJoined());
+        if (!(o instanceof Client)) return false;
+        Client client = (Client) o;
+        return getCredits() == client.getCredits() &&
+                isAdmin() == client.isAdmin() &&
+                Objects.equals(getId(), client.getId()) &&
+                Objects.equals(getName(), client.getName()) &&
+                Objects.equals(getPhone(), client.getPhone()) &&
+                Objects.equals(getUsername(), client.getUsername()) &&
+                Objects.equals(getPassword(), client.getPassword()) &&
+                Objects.equals(getDateJoined(), client.getDateJoined());
     }
 
     @Override

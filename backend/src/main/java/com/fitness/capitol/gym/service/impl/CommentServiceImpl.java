@@ -2,7 +2,7 @@ package com.fitness.capitol.gym.service.impl;
 
 import com.fitness.capitol.gym.model.Comment;
 import com.fitness.capitol.gym.model.Post;
-import com.fitness.capitol.gym.model.User;
+import com.fitness.capitol.gym.model.Client;
 import com.fitness.capitol.gym.persistance.CommentRepository;
 import com.fitness.capitol.gym.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,8 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
 
     @Override
-    public List<Comment> findAllBYUser(User user) {
-        return commentRepository.findAllByUser(user);
+    public List<Comment> findAllByClient(Client client) {
+        return commentRepository.findAllByClient(client);
     }
 
     @Override
@@ -26,8 +26,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> findByUserAndPost(User user, Post post) {
-        return commentRepository.findByUserAndPost(user, post);
+    public List<Comment> findByClientAndPost(Client client, Post post) {
+        return commentRepository.findByClientAndPost(client, post);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.fitness.capitol.gym.controllers;
 
-import com.fitness.capitol.gym.model.User;
+import com.fitness.capitol.gym.model.Client;
 import com.fitness.capitol.gym.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,12 +18,12 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<User> findAll() {
+    public List<Client> findAll() {
         return userService.findAll();
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public User getUserByUsername(@PathVariable("username") String username) {
+    public Client getUserByUsername(@PathVariable("username") String username) {
         return userService.findByUsername(username);
     }
 

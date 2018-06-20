@@ -16,20 +16,20 @@ public class User_SpecialSubscriptionServiceImpl implements User_SpecialSubscrip
 
 
     @Override
-    public List<SpecialSubscription> getAllSpecialsByUser(User user) {
-        List<User_SpecialSubscription> user_specialSubscriptions = user_specialSubscriptionRepository.findAllByUser(user);
+    public List<SpecialSubscription> getAllSpecialsByClient(Client client) {
+        List<Client_SpecialSubscription> client_specialSubscriptions = user_specialSubscriptionRepository.findAllByClient(client);
         List<SpecialSubscription> specialSubscriptions = new ArrayList<>();
-        for (User_SpecialSubscription uws : user_specialSubscriptions) {
+        for (Client_SpecialSubscription uws : client_specialSubscriptions) {
             specialSubscriptions.add(uws.getSpecialSubscription());
         }
         return specialSubscriptions;
     }
 
     @Override
-    public void save(SpecialSubscription specialSubscription, User user) {
-        User_SpecialSubscription user_specialSubscription = new User_SpecialSubscription();
-        user_specialSubscription.setUser(user);
-        user_specialSubscription.setSpecialSubscription(specialSubscription);
-        user_specialSubscriptionRepository.save(user_specialSubscription);
+    public void save(SpecialSubscription specialSubscription, Client client) {
+        Client_SpecialSubscription client_specialSubscription = new Client_SpecialSubscription();
+        client_specialSubscription.setClient(client);
+        client_specialSubscription.setSpecialSubscription(specialSubscription);
+        user_specialSubscriptionRepository.save(client_specialSubscription);
     }
 }

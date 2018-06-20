@@ -1,18 +1,18 @@
 package com.fitness.capitol.gym.persistance;
 
-import com.fitness.capitol.gym.model.User;
+import com.fitness.capitol.gym.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Transactional
-public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findAll();
+public interface UserRepository extends JpaRepository<Client, Long> {
+    List<Client> findAll();
 
-    User findById(Long id);
+    Client findById(Long id);
 
-    User findByUsername(String username);
+    Client findByUsername(String username);
 
-    User findByName(String name);
+    Client findByName(String name);
 }

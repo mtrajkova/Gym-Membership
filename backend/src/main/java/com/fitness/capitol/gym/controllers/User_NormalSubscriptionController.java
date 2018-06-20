@@ -1,7 +1,7 @@
 package com.fitness.capitol.gym.controllers;
 
+import com.fitness.capitol.gym.model.Client;
 import com.fitness.capitol.gym.model.NormalSubscription;
-import com.fitness.capitol.gym.model.User;
 import com.fitness.capitol.gym.service.NormalSubscriptionService;
 import com.fitness.capitol.gym.service.UserService;
 import com.fitness.capitol.gym.service.User_NormalSubscriptionService;
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,8 +26,8 @@ public class User_NormalSubscriptionController {
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     private List<NormalSubscription> getMyNormals(@PathVariable("username") String username) {
-        User user = userService.findByUsername(username);
-        return user_normalSubscriptionService.getAllNormalsByUser(user);
+        Client client = userService.findByUsername(username);
+        return user_normalSubscriptionService.getAllNormalsByClient(client);
     }
 
     @RequestMapping(value = "/addSubscription", method = RequestMethod.POST)
@@ -42,7 +41,7 @@ public class User_NormalSubscriptionController {
         normalSubscription.setDurationMonths(months);
         normalSubscription.setSuper(name, price);
         normalSubscriptionService.save(normalSubscription);
-        User user = userService.findByUsername(username);
-        user_normalSubscriptionService.save(normalSubscription, user);
+        Client client = userService.findByUsername(username);
+        user_normalSubscriptionService.save(normalSubscription, client);
     }
 }

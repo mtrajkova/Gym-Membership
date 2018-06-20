@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-public class User_WorkoutSubscription implements Serializable {
+public class Client_WorkoutSubscription implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
@@ -16,7 +16,7 @@ public class User_WorkoutSubscription implements Serializable {
 
     @JoinColumn
     @ManyToOne
-    private User user;
+    private Client client;
 
     @JoinColumn
     @ManyToOne
@@ -46,12 +46,12 @@ public class User_WorkoutSubscription implements Serializable {
         this.dateStarted = dateStarted;
     }
 
-    public User getUser() {
-        return user;
+    public Client getClient() {
+        return client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public WorkoutSubscription getWorkoutSubscription() {
@@ -65,18 +65,18 @@ public class User_WorkoutSubscription implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User_WorkoutSubscription)) return false;
-        User_WorkoutSubscription that = (User_WorkoutSubscription) o;
+        if (!(o instanceof Client_WorkoutSubscription)) return false;
+        Client_WorkoutSubscription that = (Client_WorkoutSubscription) o;
         return Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getDatePaused(), that.getDatePaused()) &&
                 Objects.equals(getDateStarted(), that.getDateStarted()) &&
-                Objects.equals(getUser(), that.getUser()) &&
+                Objects.equals(getClient(), that.getClient()) &&
                 Objects.equals(getWorkoutSubscription(), that.getWorkoutSubscription());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getDatePaused(), getDateStarted(), getUser(), getWorkoutSubscription());
+        return Objects.hash(getId(), getDatePaused(), getDateStarted(), getClient(), getWorkoutSubscription());
     }
 }

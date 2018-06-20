@@ -9,35 +9,46 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "NormalSubscription")
-public class NormalSubscription extends Subscription implements Serializable {
+public class NormalSubscription implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
 
     private int durationMonths;
 
-    public NormalSubscription() {
-    }
+    private String name;
 
-    public NormalSubscription(int durationMonths, String name, Long price) {
-        super(name, price);
-        this.durationMonths = durationMonths;
-    }
+    private Long price;
+
 
     public void setSuper(String name, Long price) {
-        super.setName(name);
-        super.setPrice(price);
+        this.setName(name);
+        this.setPrice(price);
     }
 
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     public int getDurationMonths() {
@@ -52,15 +63,16 @@ public class NormalSubscription extends Subscription implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof NormalSubscription)) return false;
-        if (!super.equals(o)) return false;
         NormalSubscription that = (NormalSubscription) o;
         return getDurationMonths() == that.getDurationMonths() &&
-                Objects.equals(getId(), that.getId());
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getPrice(), that.getPrice());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), getId(), getDurationMonths());
+        return Objects.hash(getId(), getDurationMonths(), getName(), getPrice());
     }
 }

@@ -1,14 +1,13 @@
 package com.fitness.capitol.gym.service;
 
 import com.fitness.capitol.gym.model.NormalSubscription;
-import com.fitness.capitol.gym.model.SpecialSubscription;
-import com.fitness.capitol.gym.model.User;
+import com.fitness.capitol.gym.model.Client;
 
 import java.util.List;
 
 public interface User_NormalSubscriptionService {
-    List<NormalSubscription> getAllNormalsByUser(User user);
+    List<NormalSubscription> getAllNormalsByClient(Client client);
 
-    void save(NormalSubscription normalSubscription, User user);
+    void save(NormalSubscription normalSubscription, Client client);
 
 }

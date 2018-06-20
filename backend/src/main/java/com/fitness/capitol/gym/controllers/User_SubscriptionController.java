@@ -20,7 +20,7 @@ public class User_SubscriptionController {
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public List<Object> getMySubscriptions(@PathVariable("username") String username) {
-        return user_subscriptionService.findAllByUser(userService.findByUsername(username));
+        return user_subscriptionService.findAllByClient(userService.findByUsername(username));
     }
 
 

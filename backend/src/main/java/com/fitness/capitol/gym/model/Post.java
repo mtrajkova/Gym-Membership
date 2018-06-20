@@ -11,9 +11,9 @@ public class Post implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "User")
-    private User user;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "Client")
+    private Client client;
 
     private String text;
     private String title;
@@ -26,12 +26,12 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Client getClient() {
+        return client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public String getText() {
@@ -56,7 +56,7 @@ public class Post implements Serializable {
         if (!(o instanceof Post)) return false;
         Post post = (Post) o;
         return Objects.equals(getId(), post.getId()) &&
-                Objects.equals(getUser(), post.getUser()) &&
+                Objects.equals(getClient(), post.getClient()) &&
                 Objects.equals(getText(), post.getText()) &&
                 Objects.equals(getTitle(), post.getTitle());
     }
@@ -64,6 +64,6 @@ public class Post implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getUser(), getText(), getTitle());
+        return Objects.hash(getId(), getClient(), getText(), getTitle());
     }
 }

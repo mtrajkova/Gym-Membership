@@ -1,8 +1,7 @@
 package com.fitness.capitol.gym.service.impl;
 
-import com.fitness.capitol.gym.model.User;
-import com.fitness.capitol.gym.model.User_WorkoutSubscription;
-import com.fitness.capitol.gym.model.Workout;
+import com.fitness.capitol.gym.model.Client;
+import com.fitness.capitol.gym.model.Client_WorkoutSubscription;
 import com.fitness.capitol.gym.model.WorkoutSubscription;
 import com.fitness.capitol.gym.persistance.User_WorkoutSubscriptionRepository;
 import com.fitness.capitol.gym.service.User_WorkoutSubscriptionService;
@@ -18,10 +17,10 @@ public class User_WorkoutSubscriptionServiceImpl implements User_WorkoutSubscrip
     private User_WorkoutSubscriptionRepository user_workoutSubscriptionRepository;
 
     @Override
-    public List<WorkoutSubscription> getAllWorkoutSubsByUser(User user) {
-        List<User_WorkoutSubscription> user_workoutSubscription = user_workoutSubscriptionRepository.findAllByUser(user);
+    public List<WorkoutSubscription> getAllWorkoutSubsByClient(Client client) {
+        List<Client_WorkoutSubscription> client_workoutSubscription = user_workoutSubscriptionRepository.findAllByClient(client);
         List<WorkoutSubscription> workoutSubscriptions = new ArrayList<>();
-        for(User_WorkoutSubscription uws: user_workoutSubscription){
+        for(Client_WorkoutSubscription uws: client_workoutSubscription){
             workoutSubscriptions.add(uws.getWorkoutSubscription());
         }
         return  workoutSubscriptions;
@@ -29,10 +28,10 @@ public class User_WorkoutSubscriptionServiceImpl implements User_WorkoutSubscrip
 
 
     @Override
-    public void save(WorkoutSubscription workoutSubscription, User user) {
-        User_WorkoutSubscription user_workoutSubscription = new User_WorkoutSubscription();
-        user_workoutSubscription.setUser(user);
-        user_workoutSubscription.setWorkoutSubscription(workoutSubscription);
-        user_workoutSubscriptionRepository.save(user_workoutSubscription);
+    public void save(WorkoutSubscription workoutSubscription, Client client) {
+        Client_WorkoutSubscription client_workoutSubscription = new Client_WorkoutSubscription();
+        client_workoutSubscription.setClient(client);
+        client_workoutSubscription.setWorkoutSubscription(workoutSubscription);
+        user_workoutSubscriptionRepository.save(client_workoutSubscription);
     }
 }

@@ -1,14 +1,13 @@
 package com.fitness.capitol.gym.service;
 
-import com.fitness.capitol.gym.model.User;
+import com.fitness.capitol.gym.model.Client;
 import com.fitness.capitol.gym.model.Workout;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 public interface WorkoutService {
-    List<Workout> findAllByUser(User user);
+    List<Workout> findAllByClient(Client client);
 
     Workout save(Workout workout);
 
@@ -16,5 +15,5 @@ public interface WorkoutService {
 
     Workout findById(Long id);
 
-    Workout findByDate(Date date, User user);
+    Workout findByDate(Date date, Client client);
 }

@@ -2,7 +2,7 @@ package com.fitness.capitol.gym.controllers;
 
 import com.fitness.capitol.gym.model.Comment;
 import com.fitness.capitol.gym.model.Post;
-import com.fitness.capitol.gym.model.User;
+import com.fitness.capitol.gym.model.Client;
 import com.fitness.capitol.gym.service.CommentService;
 import com.fitness.capitol.gym.service.PostService;
 import com.fitness.capitol.gym.service.UserService;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,13 +35,13 @@ public class CommentController {
     @RequestMapping(value = "/{username}/{post}", method = RequestMethod.GET)
     public List<Comment> getCommentsForUserPerPost(@PathVariable("username") String username, @PathVariable("post") String title) {
         Post post = postService.findByTitle(title);
-        User user = userService.findByUsername(username);
-        return commentService.findByUserAndPost(user, post);
+        Client client = userService.findByUsername(username);
+        return commentService.findByClientAndPost(client, post);
     }
 
     @RequestMapping(value = "/addComment", method = RequestMethod.POST)
     public void addComment(@RequestParam("text") String text, @RequestParam("postTitle") String title, @RequestParam("username") String username) {
-        User user = userService.findByUsername(username);
+        Client client = userService.findByUsername(username);
         Post post = postService.findByTitle(title);
         Date date = new Date();
         Comment comment = new Comment();
@@ -50,7 +49,7 @@ public class CommentController {
         comment.setPost(post);
         comment.setText(text);
         comment.setTimestamp(date);
-        comment.setUser(user);
+        comment.setClient(client);
         comment.setUpvotes(0);
         commentService.save(comment);
     }

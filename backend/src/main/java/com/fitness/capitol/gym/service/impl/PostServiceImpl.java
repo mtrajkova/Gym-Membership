@@ -1,7 +1,7 @@
 package com.fitness.capitol.gym.service.impl;
 
 import com.fitness.capitol.gym.model.Post;
-import com.fitness.capitol.gym.model.User;
+import com.fitness.capitol.gym.model.Client;
 import com.fitness.capitol.gym.persistance.PostRepository;
 import com.fitness.capitol.gym.persistance.UserRepository;
 import com.fitness.capitol.gym.service.PostService;
@@ -19,8 +19,8 @@ public class PostServiceImpl implements PostService {
     private UserRepository userRepository;
 
     @Override
-    public List<Post> findAllByUser(User user) {
-        return postRepository.findAllByUser(user);
+    public List<Post> findAllByCilent(Client client) {
+        return postRepository.findAllByClient(client);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class PostServiceImpl implements PostService {
         Post post = new Post();
         post.setText(text);
         post.setTitle(title);
-        post.setUser((User)userRepository.findByUsername(username));
+        post.setClient((Client)userRepository.findByUsername(username));
         postRepository.save(post);
     }
 

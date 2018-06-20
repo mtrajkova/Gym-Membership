@@ -2,7 +2,6 @@ package com.fitness.capitol.gym.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -19,7 +18,7 @@ public class Workout implements Serializable {
 
     @JoinColumn
     @ManyToOne
-    private User user;
+    private Client client;
 
     public Long getId() {
         return id;
@@ -45,12 +44,12 @@ public class Workout implements Serializable {
         this.workoutName = workoutName;
     }
 
-    public User getUser() {
-        return user;
+    public Client getClient() {
+        return client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     @Override
@@ -61,12 +60,12 @@ public class Workout implements Serializable {
         return Objects.equals(getId(), workout.getId()) &&
                 Objects.equals(getDate(), workout.getDate()) &&
                 Objects.equals(getWorkoutName(), workout.getWorkoutName()) &&
-                Objects.equals(getUser(), workout.getUser());
+                Objects.equals(getClient(), workout.getClient());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getDate(), getWorkoutName(), getUser());
+        return Objects.hash(getId(), getDate(), getWorkoutName(), getClient());
     }
 }

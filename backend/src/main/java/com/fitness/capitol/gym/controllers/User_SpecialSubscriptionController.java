@@ -24,8 +24,8 @@ public class User_SpecialSubscriptionController {
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     private List<SpecialSubscription> getMySpecials(@PathVariable("username") String username) {
-        User user = userService.findByUsername(username);
-        return user_specialSubscriptionService.getAllSpecialsByUser(user);
+        Client client = userService.findByUsername(username);
+        return user_specialSubscriptionService.getAllSpecialsByClient(client);
     }
 
     @RequestMapping(value = "/addSubscription", method = RequestMethod.POST)
@@ -51,7 +51,7 @@ public class User_SpecialSubscriptionController {
         specialSubscription.setEndOfRegistration(endDate);
         specialSubscription.setStartOfRegistration(startDate);
         specialSubscriptionService.save(specialSubscription);
-        User user = userService.findByUsername(username);
-        user_specialSubscriptionService.save(specialSubscription, user);
+        Client client = userService.findByUsername(username);
+        user_specialSubscriptionService.save(specialSubscription, client);
     }
 }

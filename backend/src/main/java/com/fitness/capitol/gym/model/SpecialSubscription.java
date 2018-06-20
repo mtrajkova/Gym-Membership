@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "SpecialSubscription")
-public class SpecialSubscription extends Subscription implements Serializable {
+public class SpecialSubscription implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
@@ -16,27 +16,44 @@ public class SpecialSubscription extends Subscription implements Serializable {
     private Date endOfRegistration;
     private int durationMonths;
 
+    private String name;
+    private Long price;
+
 
     public SpecialSubscription() {
     }
 
-    public SpecialSubscription(Date startOfRegistration, Date endOfRegistration, int durationMonths, String name, Long price) {
-        super(name, price);
-
-        this.durationMonths = durationMonths;
-        this.endOfRegistration = endOfRegistration;
-        this.startOfRegistration = startOfRegistration;
-
+    public SpecialSubscription(Date startOfRegistration, Date endOfRegistration, int durationMonths,String name, Long price){
+        this.startOfRegistration=startOfRegistration;
+        this.endOfRegistration=endOfRegistration;
+        this.durationMonths=durationMonths;
+        this.price=price;
+        this.name=name;
     }
 
-    @Override
+
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     public Date getStartOfRegistration() {
@@ -64,8 +81,8 @@ public class SpecialSubscription extends Subscription implements Serializable {
     }
 
     public void setSuper(String name, Long price){
-        super.setName(name);
-        super.setPrice(price);
+        this.setName(name);
+        this.setPrice(price);
     }
 
 
@@ -73,17 +90,18 @@ public class SpecialSubscription extends Subscription implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SpecialSubscription)) return false;
-        if (!super.equals(o)) return false;
         SpecialSubscription that = (SpecialSubscription) o;
         return getDurationMonths() == that.getDurationMonths() &&
                 Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getStartOfRegistration(), that.getStartOfRegistration()) &&
-                Objects.equals(getEndOfRegistration(), that.getEndOfRegistration());
+                Objects.equals(getEndOfRegistration(), that.getEndOfRegistration()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getPrice(), that.getPrice());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), getId(), getStartOfRegistration(), getEndOfRegistration(), getDurationMonths());
+        return Objects.hash(getId(), getStartOfRegistration(), getEndOfRegistration(), getDurationMonths(), getName(), getPrice());
     }
 }

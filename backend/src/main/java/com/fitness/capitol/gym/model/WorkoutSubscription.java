@@ -9,36 +9,57 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "WorkoutSubscription")
-public class WorkoutSubscription extends Subscription implements Serializable {
+public class WorkoutSubscription implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
 
     private int numberOfDays;
 
+    private String name;
+
+    private Long price;
+
     public WorkoutSubscription() {
     }
 
     public WorkoutSubscription(int numberOfDays, String name, Long price) {
-        super(name, price);
+        setSuper(name,price);
         this.numberOfDays = numberOfDays;
 
     }
 
-    @Override
+
+
+    public void setSuper(String name, Long price){
+        this.setName(name);
+        this.setPrice(price);
+    }
+
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setSuper(String name, Long price){
-        super.setName(name);
-        super.setPrice(price);
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
     public int getNumberOfDays() {
         return numberOfDays;
     }
@@ -51,15 +72,16 @@ public class WorkoutSubscription extends Subscription implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof WorkoutSubscription)) return false;
-        if (!super.equals(o)) return false;
         WorkoutSubscription that = (WorkoutSubscription) o;
         return getNumberOfDays() == that.getNumberOfDays() &&
-                Objects.equals(getId(), that.getId());
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getPrice(), that.getPrice());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), getId(), getNumberOfDays());
+        return Objects.hash(getId(), getNumberOfDays(), getName(), getPrice());
     }
 }

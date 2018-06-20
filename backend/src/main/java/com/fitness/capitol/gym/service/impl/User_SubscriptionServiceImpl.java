@@ -1,8 +1,6 @@
 package com.fitness.capitol.gym.service.impl;
 
-import com.fitness.capitol.gym.model.Subscription;
-import com.fitness.capitol.gym.model.User;
-import com.fitness.capitol.gym.persistance.User_SubscriptionRepository;
+import com.fitness.capitol.gym.model.Client;
 import com.fitness.capitol.gym.service.User_NormalSubscriptionService;
 import com.fitness.capitol.gym.service.User_SpecialSubscriptionService;
 import com.fitness.capitol.gym.service.User_SubscriptionService;
@@ -26,11 +24,11 @@ public class User_SubscriptionServiceImpl implements User_SubscriptionService {
     private User_NormalSubscriptionService user_normalSubscriptionService;
 
     @Override
-    public List<Object> findAllByUser(User user) {
+    public List<Object> findAllByClient(Client client) {
         List<Object> subscriptions = new ArrayList<>();
-        subscriptions.addAll(user_normalSubscriptionService.getAllNormalsByUser(user));
-        subscriptions.addAll(user_specialSubscriptionService.getAllSpecialsByUser(user));
-        subscriptions.addAll(user_workoutSubscriptionService.getAllWorkoutSubsByUser(user));
+        subscriptions.addAll(user_normalSubscriptionService.getAllNormalsByClient(client));
+        subscriptions.addAll(user_specialSubscriptionService.getAllSpecialsByClient(client));
+        subscriptions.addAll(user_workoutSubscriptionService.getAllWorkoutSubsByClient(client));
         return subscriptions;
     }
 

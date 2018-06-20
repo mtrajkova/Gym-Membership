@@ -5,7 +5,6 @@ import com.fitness.capitol.gym.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,8 +33,8 @@ public class SetsController {
         Date date = new Date();
         long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
         date.setTime(time);
-        User user = userService.findByUsername(username);
-        Workout workout = workoutService.findByDate(date, user);
+        Client client = userService.findByUsername(username);
+        Workout workout = workoutService.findByDate(date, client);
         Exercise exercise = new Exercise();
         List<Exercise> exercises = new ArrayList<>();
         List<Workout_Exercise> workout_exercises = workout_exerciseService.findAllByWorkout(workout);
@@ -61,8 +60,8 @@ public class SetsController {
         Date date = new Date();
         long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
         date.setTime(time);
-        User user = userService.findByUsername(username);
-        Workout workout = workoutService.findByDate(date, user);
+        Client client = userService.findByUsername(username);
+        Workout workout = workoutService.findByDate(date, client);
         Exercise exercise = new Exercise();
         List<Exercise> exercises = new ArrayList<>();
         List<Workout_Exercise> workout_exercises = workout_exerciseService.findAllByWorkout(workout);

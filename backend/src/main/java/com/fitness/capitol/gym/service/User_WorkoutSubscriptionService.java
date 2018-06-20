@@ -5,7 +5,7 @@ import com.fitness.capitol.gym.model.*;
 import java.util.List;
 
 public interface User_WorkoutSubscriptionService {
-    List<WorkoutSubscription> getAllWorkoutSubsByUser(User user);
-    void save(WorkoutSubscription workoutSubscription, User user);
+    List<WorkoutSubscription> getAllWorkoutSubsByClient(Client client);
+    void save(WorkoutSubscription workoutSubscription, Client client);
 
 }
