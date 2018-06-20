@@ -4,47 +4,75 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <title>Title</title>
-    <style>
-        .jumbotron {
-            border-radius: 0px;
-            height: 150px;
-        }
-    </style>
+
 </head>
 <body>
 
 
 <div id="app">
 
-    <div class="jumbotron bg-dark" id="jumbotron">
+    <!--Navbar begin-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <div class="row">
-                <div class="col">
-                    <h1 class="text-white">Capitol</h1>
-                </div>
-                <div class="col">
-                    <div v-if="!loggedIn">
-                        <a href="#" class="text-white" data-target="#myModal" data-toggle="modal">Register</a>
-                        <a href="#" class="text-white" @click="logIn()">Log in</a>
-                    </div>
-                    <div v-else>
-                        <p class="text-white">Hello {{user}}</p>
-                        <a href="#" class="text-white" @click="logOut()">Log out</a>
-                    </div>
-                </div>
+            <a class="navbar-brand" href="#">Capitol Fitness</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto" v-if="!loggedIn">
+                    <li class="nav-item">
+                        <a href="#" class="text-white nav-link" data-target="#myModal"
+                           data-toggle="modal">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="text-white nav-link" @click="logIn()">Log in</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ml-auto" v-else>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-white nav-link">Hello {{user}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="text-white nav-link" @click="logOut()">Log out</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
+    <!--Navbar end-->
+
+     <!--Page Content-->
     <div class="container">
 
+        <h1 class="my-4 pt-5">Page Heading
+            <small>Secondary Text</small>
+        </h1>
         <!--Offers-->
 
         <div class="row">
             <ul class="list-unstyled list-inline">
                 <li class="col-4 list-inline-item" v-for="offer in offers">
                     <div class="card">
-                        <div class="card-title">{{offer.title}}</div>
+
+                        <div class="card-title ml-4 mt-4">{{offer.title}}</div>
                         <div class="card-body">{{offer.text}}</div>
                         <div class="card-footer">
                             <button class="btn btn-success">Take offer!</button>
@@ -123,16 +151,43 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" v-on:click="sendData($event,user.username)">Register</button>
+                    <button type="button" class="btn btn-primary" v-on:click="sendData($event,user.username)">Register
+                    </button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
 
             </div>
         </div>
     </div>
+    <!--End Register Modal-->
 
+    <!--Begin Login Modal-->
+    <div class="modal" id="loginModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
 
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <input type="text" v-on:click="sendData($event,user.username)">
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" v-on:click="sendData($event,user.username)">Register
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--End Login Modal-->
 </div>
 
 
@@ -148,6 +203,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="dist/axios.js"></script>
 <script src="main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </body>
 </html>

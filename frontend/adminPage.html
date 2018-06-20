@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Admin Page</title>
+</head>
+<body>
+<div id="app">
+    <!--<div class="jumbotron bg-dark" id="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-white">Capitol</h1>
+                </div>
+                <div class="col col" id="login">
+                    <div v-if="!loggedIn">
+                        <a href="#" class="text-white" data-target="#myModal" data-toggle="modal">Register</a>
+                        <a href="#" class="text-white" @click="logIn()">Log in</a>
+                    </div>
+                    <div v-else>
+                        <p class="text-white">Hello {{user}}</p>
+                        <a href="#" class="text-white" @click="logOut()">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->
+    <mynavbar></mynavbar>
+
+    <!--&lt;!&ndash;Navbar begin-->
+    <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">-->
+        <!--<div class="container">-->
+            <!--<a class="navbar-brand" href="#">Capitol Fitness</a>-->
+            <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"-->
+                    <!--aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">-->
+                <!--<span class="navbar-toggler-icon"></span>-->
+            <!--</button>-->
+            <!--<div class="collapse navbar-collapse" id="navbarResponsive">-->
+                <!--<ul class="navbar-nav ml-auto" v-if="!loggedIn">-->
+                    <!--<li class="nav-item">-->
+                        <!--<a href="#" class="text-white nav-link" data-target="#myModal"-->
+                           <!--data-toggle="modal">Register</a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item">-->
+                        <!--<a href="#" class="text-white nav-link" data-target="#loginModal" data-toggle="modal">Log in</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+
+                <!--<ul class="navbar-nav ml-auto" v-else>-->
+                    <!--<li class="nav-item active">-->
+                        <!--<a class="nav-link" href="#">Home-->
+                            <!--<span class="sr-only">(current)</span>-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item">-->
+                        <!--<a class="nav-link" href="#">About</a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item">-->
+                        <!--<a class="nav-link" href="#">Services</a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item">-->
+                        <!--<a class="nav-link" href="#">Contact</a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item">-->
+                        <!--<a class="text-white nav-link">Hello {{user.name}}</a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item">-->
+                        <!--<a href="#" class="text-white nav-link" @click="logOut()">Log out</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</nav>-->
+    <!--&lt;!&ndash;Navbar end&ndash;&gt;-->
+<!--
+
+    Begin Login Modal
+    <div class="modal" id="loginModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                 Modal Header
+                <div class="modal-header">
+                    <h4 class="modal-title">Enter login credentials</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                 Modal body
+                <div class="modal-body">
+                        <p>
+                            <label>Username:</label>
+                            <input type="text" v-model="usernameLogin">
+                        </p>
+                        <p>
+                            <label>Password:</label>
+                            <input type="password" v-model="userPassword">
+                        </p>
+                </div>
+
+                 Modal footer
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @click="logIn($event, usernameLogin, userPassword)">
+                        Login
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>-
+    End Login Modal
+-->
+
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-3">
+                <h1 class="my-4 pt-5">Admin page
+                    <small>Secondary Text</small>
+                </h1>
+                <a href="#" class="btn btn-success float-right">View clients</a><br/><br/>
+                <a href="#" class="btn btn-success float-left">View clients</a><br/><br/>
+            </div>
+            <div class="col-5">
+
+            </div>
+            <div class="col-4">
+
+            </div>
+           <!-- <div class="col-5">
+                <h3 class="my-4 pt-5">Users</h3>
+                <ul class="list-group">
+                    <li class="list-group-item">user 1</li>
+                    <li class="list-group-item">user 1</li>
+                    <li class="list-group-item">user 1</li>
+                    <li class="list-group-item">user 1</li>
+                    <li class="list-group-item">user 1</li>
+                </ul>
+            </div>
+            <div class="col-4">
+                <h3 class="my-4 pt-5">Details</h3>
+                <ul class="list-group">
+                    <li class="">Name: {{ user.name }}</li>
+                    <li class="">Username: {{user.username}}</li>
+                    <li class="">Phone :{{user.phone}}</li>
+                    <li class="">Date joined:
+                        {{user.dateJoined.dayOfMonth}}.{{user.dateJoined.monthValue}}.{{user.dateJoined.year}}
+                    </li>
+                    <li class="">Credits: {{user.credits}}</li>
+                    <li class="">Admin: {{user.isAdmin}}</li>
+                </ul>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="dist/axios.js"></script>
+<script src="main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</body>
+</html>
