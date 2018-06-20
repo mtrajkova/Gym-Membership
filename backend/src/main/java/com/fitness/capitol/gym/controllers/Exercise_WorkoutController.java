@@ -12,15 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/exercises", produces = MediaType.APPLICATION_JSON_VALUE)
 public class Exercise_WorkoutController {
@@ -38,9 +36,9 @@ public class Exercise_WorkoutController {
     private UserService userService;
 
     //    PROBAJ GOOOO OVA **************
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Exercise> getAllExercisesByWorkout(@RequestParam("workoutDate") String workoutDate,
-                                                   @RequestParam("username") String username) {
+    @RequestMapping(value = "/{workoutDate}/{username}", method = RequestMethod.GET)
+    public List<Exercise> getAllExercisesByWorkout(@PathVariable("workoutDate") String workoutDate,
+                                                   @PathVariable("username") String username) {
         Client client = userService.findByUsername(username);
         String[] parts = workoutDate.split("\\.");
         long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
@@ -48,9 +46,9 @@ public class Exercise_WorkoutController {
         date.setTime(time);
         Workout workout = new Workout();
         workout = workoutService.findByDate(date, client);
-        List<Workout_Exercise> workout_exercises =workout_exerciseService.findAllByWorkout(workout);
+        List<Workout_Exercise> workout_exercises = workout_exerciseService.findAllByWorkout(workout);
         List<Exercise> exercises = new ArrayList<>();
-        for(Workout_Exercise we : workout_exercises){
+        for (Workout_Exercise we : workout_exercises) {
             exercises.add(we.getExercise());
         }
         return exercises;
@@ -74,7 +72,7 @@ public class Exercise_WorkoutController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        String [] parts = workoutDate.split("\\.");
+        String[] parts = workoutDate.split("\\.");
         long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
         Date date = new Date();
         date.setTime(time);

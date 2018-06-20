@@ -2,8 +2,8 @@ package com.fitness.capitol.gym.controllers;
 
 import com.fitness.capitol.gym.model.Post;
 import com.fitness.capitol.gym.model.Client;
-import com.fitness.capitol.gym.persistance.PostRepository;
 import com.fitness.capitol.gym.persistance.UserRepository;
+import com.fitness.capitol.gym.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +15,14 @@ import java.util.List;
 @RequestMapping(value = "/myPosts", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PostController {
     @Autowired
-    private PostRepository postRepository;
+    private PostService postService;
 
     @Autowired
     private UserRepository userRepository;
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public List<Post> getMyPosts(@PathVariable("username") String username) {
-        return postRepository.findAllByClient((Client) userRepository.findByUsername(username));
+        return postService.findAllByClient((Client) userRepository.findByUsername(username));
     }
 
     @RequestMapping(value = "/addPost", method = RequestMethod.POST)
@@ -33,6 +33,12 @@ public class PostController {
         post.setClient(userRepository.findByUsername(username));
         post.setTitle(title);
         post.setText(text);
-        postRepository.save(post);
+        postService.save(post);
+    }
+
+    @RequestMapping(value = "/byAdmin", method = RequestMethod.GET)
+    public List<Post> getPostsByAdmin() {
+        return postService.getAllByAdmin();
+
     }
 }

@@ -6,7 +6,8 @@ import com.fitness.capitol.gym.model.Client;
 import java.util.List;
 
 public interface PostService {
-    List<Post> findAllByCilent(Client client);
-    void save(String username, String text, String title);
+    List<Post> findAllByClient(Client client);
+    void save(Post post);
     Post findByTitle(String title);
+    List<Post> getAllByAdmin();
 }

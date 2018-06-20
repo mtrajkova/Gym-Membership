@@ -16,6 +16,7 @@ public class SpecialSubscription implements Serializable {
     private Date endOfRegistration;
     private int durationMonths;
 
+
     private String name;
     private Long price;
 

@@ -15,7 +15,7 @@ import java.util.Date;
 @RestController
 @RequestMapping(value = "/workouts", produces = MediaType.APPLICATION_JSON_VALUE)
 @SessionAttributes("user")
-
+@CrossOrigin
 public class WorkoutController {
     @Autowired
     private WorkoutService workoutService;

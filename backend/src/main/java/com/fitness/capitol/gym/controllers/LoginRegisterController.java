@@ -43,7 +43,7 @@ public class LoginRegisterController {
         client.setDateJoined(LocalDateTime.now());
         try {
             userService.save(client);
-            return ResponseEntity.status(HttpStatus.OK).body("Client saved");
+            return ResponseEntity.status(HttpStatus.OK).body(client);
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

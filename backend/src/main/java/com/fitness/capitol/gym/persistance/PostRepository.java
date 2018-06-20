@@ -9,4 +9,5 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByClient(Client client);
     Post findByTitle(String title);
+    List<Post> findAll();
 }
