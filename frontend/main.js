@@ -1,3 +1,5 @@
+
+
 Vue.component('mynavbar', {
     template: `
 <div>
@@ -71,7 +73,7 @@ Vue.component('mynavbar', {
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @click="logIn($event, usernameLogin, userPassword)">
+                    <button type="button" class="btn btn-primary" @click="logIn($event, usernameLogin, userPassword)" data-dismiss="modal">
                         Login
                     </button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -83,7 +85,7 @@ Vue.component('mynavbar', {
     <!--End Login Modal-->
 </div>
         `,
-    data: function(){
+    data: function () {
         return {
             user: this.user,
             loggedIn: false,
@@ -132,20 +134,58 @@ Vue.component('mynavbar', {
     }
 })
 
-Vue.component('admin-users', {
-    template:`
+var eventBus = new Vue()
 
-            <div class="col-5">
-                    <h3 class="my-4 pt-5">Users</h3>
+Vue.component('admin-users', {
+    template: `
+            <div>
+                <h3 class="my-4 pt-5">Users</h3>
                 <ul class="list-group">
-                    <li class="list-group-item">user 1</li>
-                    <li class="list-group-item">user 1</li>
-                    <li class="list-group-item">user 1</li>
-                    <li class="list-group-item">user 1</li>
-                    <li class="list-group-item">user 1</li>
+                    <li class="list-group-item" v-for="user in users"><a href="#" @click="viewUser(user)">{{user.username}}</a></li>
                 </ul>
             </div>
-            <div class="col-4">
+    `,
+    data: function () {
+        return {
+            users: [
+                {
+                    username: "asdf",
+                    name: "asdf",
+                    password: "asdf",
+                    phone: "asdf",
+                    dateJoined: {},
+                    joinDate: "asdf",
+                    credits: "asdf",
+                    isAdmin: "asdf",
+                    admin: "asdf"
+                },
+                {
+
+                    username: "2",
+                    name: "",
+                    password: "",
+                    phone: "",
+                    dateJoined: {},
+                    joinDate: "",
+                    credits: "",
+                    isAdmin: "",
+                    admin: ""
+
+                }
+            ]
+        }
+
+    },
+    methods: {
+        viewUser: function (user) {
+            eventBus.$emit('viewUser', user)
+        }
+    }
+})
+
+Vue.component('admin-user-details', {
+    template: `
+            <div>
                 <h3 class="my-4 pt-5">Details</h3>
                 <ul class="list-group">
                     <li class="">Name: {{ user.name }}</li>
@@ -158,8 +198,30 @@ Vue.component('admin-users', {
                     <li class="">Admin: {{user.isAdmin}}</li>
                 </ul>
             </div>
-   
-`
+`,
+
+    data: function () {
+        return {
+            user: {
+                username: "",
+                name: "",
+                password: "",
+                phone: "",
+                dateJoined: {},
+                joinDate: "",
+                credits: "",
+                isAdmin: "",
+                admin: ""
+            }
+
+        }
+    }
+    ,
+    mounted(){
+        eventBus.$on('viewUser', user => {
+            this.user = user
+        })
+    }
 })
 
 var app = new Vue({
@@ -190,6 +252,11 @@ var app = new Vue({
                 id: 2,
                 title: "ponuda 2",
                 text: "ovaa ponuda vazhi samo vo period od 23 juni do 23 juli, zemete sega ili nikogash poekje!"
+            },
+            {
+                id: 3,
+                title: "ponuda 3",
+                text: "ovaa ponuda vazhi samo vo period od 23 juni do 23 juli, zemete sega ili nikogash poekje!"
             }
         ],
         news: [
@@ -211,6 +278,7 @@ var app = new Vue({
         mySubscriptions: []
     },
     methods: {
+
         fillDate: function () {
             this.news.date = "2"
         },
