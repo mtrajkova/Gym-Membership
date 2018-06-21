@@ -11,12 +11,12 @@ public class Workout_Exercise implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long workoutExerciseId;
 
-    @JoinColumn
+    @JoinColumn(name = "Workout")
    // @ManyToOne(cascade = CascadeType.ALL)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Workout workout;
 
-    @JoinColumn
+    @JoinColumn(name = "Exercise")
    // @ManyToOne(cascade = CascadeType.ALL)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Exercise exercise;

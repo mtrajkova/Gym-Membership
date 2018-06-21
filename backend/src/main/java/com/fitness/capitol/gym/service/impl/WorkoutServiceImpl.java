@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +39,12 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public Workout findByDate(Date date, Client client) {
+    public Workout findByDate(LocalDateTime date, Client client) {
         return workoutRepository.findByDateAndClient(date, client);
+    }
+
+    @Override
+    public Workout findByDateAndWorkoutNameAndClient(LocalDateTime date, String workoutName, Client client) {
+        return workoutRepository.findByDateAndWorkoutNameAndClient(date, workoutName, client);
     }
 }

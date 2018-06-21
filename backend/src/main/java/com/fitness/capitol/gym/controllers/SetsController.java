@@ -5,6 +5,7 @@ import com.fitness.capitol.gym.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,9 +31,10 @@ public class SetsController {
                                  @PathVariable("username") String username,
                                  @PathVariable("exercise") String exerciseName) {
         String[] parts = workoutDate.split("\\.");
-        Date date = new Date();
+       /* Date date = new Date();
         long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
-        date.setTime(time);
+        date.setTime(time);*/
+        LocalDateTime date = LocalDateTime.of(Integer.parseInt(parts[2]),Integer.parseInt(parts[1]),Integer.parseInt(parts[0]),0,0);
         Client client = userService.findByUsername(username);
         Workout workout = workoutService.findByDate(date, client);
         Exercise exercise = new Exercise();
@@ -57,9 +59,10 @@ public class SetsController {
                        @RequestParam("numberOfSet") int numberOfSet,
                        @RequestParam("numberOfReps") int numberOfReps) {
         String[] parts = workoutDate.split("\\.");
-        Date date = new Date();
+        /*Date date = new Date();
         long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
-        date.setTime(time);
+        date.setTime(time);*/
+        LocalDateTime date = LocalDateTime.of(Integer.parseInt(parts[2]),Integer.parseInt(parts[1]),Integer.parseInt(parts[0]),0,0);
         Client client = userService.findByUsername(username);
         Workout workout = workoutService.findByDate(date, client);
         Exercise exercise = new Exercise();

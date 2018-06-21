@@ -2,6 +2,7 @@ package com.fitness.capitol.gym.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ public class Workout implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private Date date;
+    private LocalDateTime date;
     private String workoutName;
 
     @JoinColumn
@@ -28,11 +29,11 @@ public class Workout implements Serializable {
         this.id = id;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

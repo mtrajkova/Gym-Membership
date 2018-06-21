@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @RestController
@@ -44,7 +45,8 @@ public class WorkoutController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        Date date = new Date();
+        LocalDateTime dateTemp = LocalDateTime.now();
+        LocalDateTime date = LocalDateTime.of(dateTemp.getYear(), dateTemp.getMonth(), dateTemp.getDayOfMonth(),0,0);
         Workout workout = new Workout();
         workout.setClient(client);
         workout.setWorkoutName(workoutName);

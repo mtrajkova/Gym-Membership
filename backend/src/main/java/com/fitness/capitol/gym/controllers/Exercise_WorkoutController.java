@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,16 +37,16 @@ public class Exercise_WorkoutController {
     private UserService userService;
 
     //    PROBAJ GOOOO OVA **************
-    @RequestMapping(value = "/{workoutDate}/{username}", method = RequestMethod.GET)
-    public List<Exercise> getAllExercisesByWorkout(@PathVariable("workoutDate") String workoutDate,
-                                                   @PathVariable("username") String username) {
+    @RequestMapping(value = "/{workoutDate}/{username}/{workoutName}", method = RequestMethod.GET)
+    public List<Exercise> getAllExercisesByWorkout(@PathVariable("workoutDate") String workoutDate, @PathVariable("username") String username, @PathVariable("workoutName") String workoutName) {
         Client client = userService.findByUsername(username);
         String[] parts = workoutDate.split("\\.");
-        long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
+        /*long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
         Date date = new Date();
-        date.setTime(time);
+        date.setTime(time);*/
+        LocalDateTime date = LocalDateTime.of(Integer.parseInt(parts[2]), Integer.parseInt(parts[1]), Integer.parseInt(parts[0]), 0, 0);
         Workout workout = new Workout();
-        workout = workoutService.findByDate(date, client);
+        workout = workoutService.findByDateAndWorkoutNameAndClient(date, workoutName, client);
         List<Workout_Exercise> workout_exercises = workout_exerciseService.findAllByWorkout(workout);
         List<Exercise> exercises = new ArrayList<>();
         for (Workout_Exercise we : workout_exercises) {
@@ -57,7 +58,8 @@ public class Exercise_WorkoutController {
     @RequestMapping(value = "/addExercise", method = RequestMethod.POST)
     public ResponseEntity addExercise(@RequestParam("workoutDate") String workoutDate,
                                       @RequestParam("name") String name,
-                                      @RequestParam("username") String username) {
+                                      @RequestParam("username") String username,
+                                      @RequestParam("workoutName") String workoutName) {
         Client client;
         Exercise exercise;
         try {
@@ -73,15 +75,19 @@ public class Exercise_WorkoutController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         String[] parts = workoutDate.split("\\.");
-        long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
+        /*long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
         Date date = new Date();
-        date.setTime(time);
-        Workout workout = workoutService.findByDate(date, client);
+        date.setTime(time);*/
+        LocalDateTime date = LocalDateTime.of(Integer.parseInt(parts[2]), Integer.parseInt(parts[1]), Integer.parseInt(parts[0]), 0, 0);
+        Workout workout = workoutService.findByDateAndWorkoutNameAndClient(date, workoutName, client);
+        if (workout == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(date);
+        }
         Workout_Exercise workout_exercise = new Workout_Exercise();
         workout_exercise.setExercise(exercise);
         workout_exercise.setWorkout(workout);
         workout_exerciseService.saveExerciseForWorkout(workout_exercise);
-        return ResponseEntity.status(HttpStatus.OK).body("Exercise saved");
+        return ResponseEntity.status(HttpStatus.OK).body(workout_exercise);
 
     }
 
