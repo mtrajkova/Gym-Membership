@@ -12,4 +12,6 @@ public interface User_SpecialSubscriptionService {
     void save(SpecialSubscription specialSubscription, Client client);
 
     Client_SpecialSubscription findByClientAndSpecialSubscription(Client client, SpecialSubscription specialSubscription);
+
+    List<SpecialSubscription> getAllAvailableSpecials();
 }

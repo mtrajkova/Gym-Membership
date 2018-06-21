@@ -1,6 +1,7 @@
 package com.fitness.capitol.gym.service.impl;
 
 import com.fitness.capitol.gym.model.*;
+import com.fitness.capitol.gym.persistance.SpecialSubscriptionRepository;
 import com.fitness.capitol.gym.persistance.User_SpecialSubscriptionRepository;
 import com.fitness.capitol.gym.service.User_SpecialSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ import java.util.List;
 public class User_SpecialSubscriptionServiceImpl implements User_SpecialSubscriptionService {
     @Autowired
     private User_SpecialSubscriptionRepository user_specialSubscriptionRepository;
+
+    @Autowired
+    private SpecialSubscriptionRepository specialSubscriptionRepository;
 
 
     @Override
@@ -36,5 +40,16 @@ public class User_SpecialSubscriptionServiceImpl implements User_SpecialSubscrip
     @Override
     public Client_SpecialSubscription findByClientAndSpecialSubscription(Client client, SpecialSubscription specialSubscription) {
         return user_specialSubscriptionRepository.findByClientAndSpecialSubscription(client, specialSubscription);
+    }
+
+    @Override
+    public List<SpecialSubscription> getAllAvailableSpecials() {
+        List<SpecialSubscription> specialSubscriptions = new ArrayList<>();
+        for (SpecialSubscription specialSubscription : specialSubscriptionRepository.findAll()) {
+            if (specialSubscription.isAvailable())
+                specialSubscriptions.add(specialSubscription);
+
+        }
+        return specialSubscriptions;
     }
 }
