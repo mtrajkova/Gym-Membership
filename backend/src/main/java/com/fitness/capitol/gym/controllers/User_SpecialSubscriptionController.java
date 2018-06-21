@@ -26,6 +26,7 @@ public class User_SpecialSubscriptionController {
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     private List<SpecialSubscription> getMySpecials(@PathVariable("username") String username) {
+
         Client client = userService.findByUsername(username);
         return user_specialSubscriptionService.getAllSpecialsByClient(client);
     }

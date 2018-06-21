@@ -35,4 +35,14 @@ public class NormalSubscriptionController {
             return ResponseEntity.status(HttpStatus.OK).body("Subscription saved!");
         }
     }
+
+    @RequestMapping(value = "/changeAvailability", method = RequestMethod.POST)
+    public ResponseEntity changeAvailability(@RequestParam("isAvailable") boolean isAvailable, @RequestParam("name") String name) {
+        NormalSubscription normalSubscription = normalSubscriptionService.findByName(name);
+
+        normalSubscription.setAvailable(!isAvailable);
+        normalSubscriptionService.save(normalSubscription);
+        return ResponseEntity.status(HttpStatus.OK).body("Availability changed!");
+
+    }
 }

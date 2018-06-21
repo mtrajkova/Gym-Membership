@@ -19,6 +19,15 @@ public class WorkoutSubscription implements Serializable {
     private String name;
 
     private Long price;
+    private boolean isAvailable;
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
 
     public WorkoutSubscription() {
     }
@@ -74,6 +83,7 @@ public class WorkoutSubscription implements Serializable {
         if (!(o instanceof WorkoutSubscription)) return false;
         WorkoutSubscription that = (WorkoutSubscription) o;
         return getNumberOfDays() == that.getNumberOfDays() &&
+                isAvailable() == that.isAvailable() &&
                 Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getName(), that.getName()) &&
                 Objects.equals(getPrice(), that.getPrice());
@@ -82,6 +92,6 @@ public class WorkoutSubscription implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getNumberOfDays(), getName(), getPrice());
+        return Objects.hash(getId(), getNumberOfDays(), getName(), getPrice(), isAvailable());
     }
 }

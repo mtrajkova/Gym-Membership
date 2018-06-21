@@ -21,12 +21,23 @@ public class NormalSubscription implements Serializable {
 
     private Long price;
 
+    private boolean isAvailable;
+
 
     public void setSuper(String name, Long price) {
         this.setName(name);
         this.setPrice(price);
     }
 
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
 
     public Long getId() {
         return id;
@@ -67,6 +78,7 @@ public class NormalSubscription implements Serializable {
         if (!(o instanceof NormalSubscription)) return false;
         NormalSubscription that = (NormalSubscription) o;
         return getDurationMonths() == that.getDurationMonths() &&
+                isAvailable() == that.isAvailable() &&
                 Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getName(), that.getName()) &&
                 Objects.equals(getPrice(), that.getPrice());
@@ -75,6 +87,6 @@ public class NormalSubscription implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getDurationMonths(), getName(), getPrice());
+        return Objects.hash(getId(), getDurationMonths(), getName(), getPrice(), isAvailable());
     }
 }

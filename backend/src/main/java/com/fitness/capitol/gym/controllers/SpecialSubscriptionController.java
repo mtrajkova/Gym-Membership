@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -39,5 +38,15 @@ public class SpecialSubscriptionController {
 
             return ResponseEntity.status(HttpStatus.OK).body("Subscription saved!");
         }
+    }
+
+    @RequestMapping(value = "/changeAvailability", method = RequestMethod.POST)
+    public ResponseEntity changeAvailability(@RequestParam("isAvailable") boolean isAvailable, @RequestParam("name") String name) {
+        SpecialSubscription specialSubscription = specialSubscriptionService.findByName(name);
+
+        specialSubscription.setAvailable(!isAvailable);
+        specialSubscriptionService.save(specialSubscription);
+        return ResponseEntity.status(HttpStatus.OK).body("Availability changed!");
+
     }
 }
