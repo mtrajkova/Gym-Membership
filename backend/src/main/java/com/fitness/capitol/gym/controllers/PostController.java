@@ -20,6 +20,11 @@ public class PostController {
     @Autowired
     private UserRepository userRepository;
 
+    @RequestMapping(value = "/",  method = RequestMethod.GET)
+    public List<Post> getAllPosts(){
+        return postService.findAll();
+    }
+
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public List<Post> getMyPosts(@PathVariable("username") String username) {
         return postService.findAllByClient((Client) userRepository.findByUsername(username));

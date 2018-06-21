@@ -20,6 +20,11 @@ public class PostServiceImpl implements PostService {
     private UserRepository userRepository;
 
     @Override
+    public List<Post> findAll() {
+        return postRepository.findAll();
+    }
+
+    @Override
     public List<Post> findAllByClient(Client client) {
         return postRepository.findAllByClient(client);
     }
