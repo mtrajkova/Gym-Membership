@@ -29,20 +29,6 @@ Vue.component('navigation', {
                     <li class="nav-item">
                         <span class="nav-link active">Hello {{user.name}}</span>
                     </li>
-                    <!--<li class="nav-item">
-                        <a class="nav-link" href="#" @click="selectedTab = Home" >Home
-                            &lt;!&ndash;<span class="sr-only">(current)</span>&ndash;&gt;
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" @click="selectedTab = ProfilePage" :class="{activeTab: selectedTab === ProfilePage}">Profile page</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" @click="selectedTab = Forum" :class="{activeTab: selectedTab === Forum}">Forum</a>
-                    </li>
-                    <li class="nav-item" v-show="admin">
-                        <a class="nav-link" href="#" @click="selectedTab = AdminPage" :class="{activeTab: selectedTab === AdminPage}">Admin page</a>
-                    </li>-->
                     <li class="nav-link" :class="{ activeTab: selectedTab === tab}"
                     v-for="(tab, index) in tabs"
                     :key="index"
@@ -137,10 +123,14 @@ Vue.component('navigation', {
     <!--End Register Modal-->
     
     <homepage v-show="selectedTab === 'Home'"></homepage>
+    <forum v-show="selectedTab === 'Forum'"></forum>
     
+    <my-workouts v-show="selectedTab === 'Profile Page'"></my-workouts>
     <admin-page-component v-show="selectedTab === 'Admin Page'"></admin-page-component>
-    
 </div>
+    
+    
+    
         `,
     data: function () {
         return {
@@ -158,6 +148,10 @@ Vue.component('navigation', {
     },
     // props: ['loggedIn', 'usernameLogin', 'userPassword'],
     methods: {
+        passUsername: function() {
+            eventBus4.$emit('userExercises', self.user.username);
+
+        },
         showAdminPage: function (tab) {
             if (tab === "Admin Page" && this.admin) {
                 return true;
@@ -192,6 +186,12 @@ Vue.component('navigation', {
                     console.log("success");
                     /* this.$session.start();
                      this.$session.set('user', val)*/
+
+                    eventBus4.$emit('userExercises', val.username);
+                    eventBus3.$emit('loggedUser', val);
+
+
+
                 },
                 error: function (XMLHttpRequest, status, error) {
                     alert("Incorrect credentials")
@@ -222,6 +222,9 @@ Vue.component('navigation', {
                     self.$parent.user = val;
                     document.getElementsByClassName("inputfield").value = "";
                     console.log("success")
+
+                    eventBus3.$emit('loggedUser', val);
+                    eventBus4.$emit('userExercises', val.username);
                 },
                 error: function (XMLHttpRequest, status, error) {
                     if (XMLHttpRequest.responseText == "Client already exists") {
@@ -460,88 +463,167 @@ Vue.component('admin-subs', {
             <div>
                 <h3 class="my-4 pt-5">Subscriptions</h3>
                 <ul class="list-group ">
-                    <li class="list-group-item" v-for="sub in subs"><a href="#" @click="viewSub(sub)">{{sub.name}}</a></li>
+                    <li class="list-group-item" v-for="sub in normalSubs">
+                        <a href="#">{{ sub.name }}</a><br/>
+                        <a href="#">Price: {{ sub.price }}</a><br/>
+                        <a href="#">For: {{ sub.durationMonths }} month(s)</a>
+                        <a href="#">Is available: {{ sub.available }} </a> <button class="btn btn-sm btn-success" v-show="!sub.available" @click="changeAvailabilityNormal(sub)">Make available</button><button class="btn btn-sm btn-danger" @click="changeAvailabilityNormal(sub)" v-show="sub.available">Make unavailable</button>
+                    </li>
+                    <li class="list-group-item" v-for="sub in specialSubs">
+                        <a href="#">{{ sub.name }}</a><br/>
+                        <a href="#">Price: {{ sub.price }}</a><br/>
+                        <a href="#">For: {{ sub.durationMonths }} month(s)</a><br/>
+                        <a href="#">Start of registration: {{ sub.startOfRegistration }}</a><br/>
+                        <a href="#">End of registration: {{ sub.endOfRegistration }}</a><br/>
+                        <a href="#">Is available: {{ sub.available }} </a> <button class="btn btn-sm btn-success" v-show="!sub.available" @click="changeAvailabilitySpecial(sub)">Make available</button><button class="btn btn-sm btn-danger" @click="changeAvailabilitySpecial(sub)" v-show="sub.available">Make unavailable</button>
+                    </li>
+                    <li class="list-group-item" v-for="sub in workoutSub">
+                        <a href="#">{{ sub.name }}</a><br/>
+                        <a href="#">Price: {{ sub.price }}</a><br/>
+                        <a href="#">For: {{ sub.numberOfDays }} days</a>
+                        <a href="#">Is available: {{ sub.available }} </a> <button class="btn btn-sm btn-success" v-show="!sub.available" @click="changeAvailabilityWorkout(sub)">Make available</button><button class="btn btn-sm btn-danger" @click="changeAvailabilityWorkout(sub)" v-show="sub.available">Make unavailable</button>
+                    </li>
                 </ul>
             </div>
     `,
     data: function () {
         return {
-            subs: []
+            normalSubs: [],
+            specialSubs: [],
+            workoutSub: [],
         }
 
     },
     methods: {
-        viewUser: function (sub) {
-            eventBus.$emit('viewSub', sub);
+        changeAvailabilitySpecial: function (sub) {
+            var self = this;
+            console.log(sub.name);
+            $.ajax({
+                url: 'http://localhost:8080/specialSubscriptions/changeAvailability',
+                type: 'post',
+                data: {
+                    isAvailable: sub.available,
+                    name: sub.name
+                },
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                success: function (val) {
+                    self.user = val;
+                    console.log(val);
+                    console.log("success");
+                    self.updateLists()
+                },
+                error: function (XMLHttpRequest, status, error) {
+                    alert("error")
+                }
+            })
+        },
+        changeAvailabilityWorkout: function (sub) {
+            var self = this;
+            console.log(sub.name);
+            $.ajax({
+                url: 'http://localhost:8080/workoutSubscriptions/changeAvailability',
+                type: 'post',
+                data: {
+                    isAvailable: sub.available,
+                    name: sub.name
+                },
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                success: function (val) {
+                    self.user = val;
+                    console.log(val);
+                    console.log("success");
+                    self.updateLists()
+                },
+                error: function (XMLHttpRequest, status, error) {
+                    alert("error")
+                }
+            })
+        },
+        changeAvailabilityNormal: function (sub) {
+            var self = this;
+            console.log(sub.name);
+            $.ajax({
+                url: 'http://localhost:8080/normalSubscriptions/changeAvailability',
+                type: 'post',
+                data: {
+                    isAvailable: sub.available,
+                    name: sub.name
+                },
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                success: function (val) {
+                    self.user = val;
+                    console.log(val);
+                    console.log("success");
+                    self.updateLists()
+                },
+                error: function (XMLHttpRequest, status, error) {
+                    alert("error")
+                }
+            })
+        },
+
+        updateLists: function () {
+            var self = this
+            axios.get('http://localhost:8080/workoutSubscriptions')
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    self.workoutSub = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
+            axios.get('http://localhost:8080/normalSubscriptions')
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    self.normalSubs = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
+            axios.get('http://localhost:8080/specialSubscriptions')
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    self.specialSubs = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
         }
     },
     mounted() {
         var self = this
-        axios.get('http://localhost:8080/subscriptions')
+        axios.get('http://localhost:8080/workoutSubscriptions')
             .then(function (response) {
                 console.log(response.data); // ex.: { user: 'Your User'}
                 console.log(response.status); // ex.: 200
-                self.subs = response.data;
+                self.workoutSub = response.data;
+            }).catch(function (error) {
+            console.log(error);
+
+        });
+        axios.get('http://localhost:8080/normalSubscriptions')
+            .then(function (response) {
+                console.log(response.data); // ex.: { user: 'Your User'}
+                console.log(response.status); // ex.: 200
+                self.normalSubs = response.data;
+            }).catch(function (error) {
+            console.log(error);
+
+        });
+        axios.get('http://localhost:8080/specialSubscriptions')
+            .then(function (response) {
+                console.log(response.data); // ex.: { user: 'Your User'}
+                console.log(response.status); // ex.: 200
+                self.specialSubs = response.data;
             }).catch(function (error) {
             console.log(error);
 
         });
     }
 })
-
-
-Vue.component('admin-subs-details', {
-    template: `
-            <div v-show="selected">
-                <h3 class="my-4 pt-5">Details</h3>
-                <ul class="list-group list-unstyled">
-                    <li class="">Name: {{ sub.name }}</li>
-                    <li class="">Username: {{sub.price}}</li>
-                    <li class="">Phone :{{user.phone}}</li>
-                    <li class="">Date joined:
-                        {{user.dateJoined.dayOfMonth}}.{{user.dateJoined.monthValue}}.{{user.dateJoined.year}}
-                    </li>
-                    <li class="">Credits: {{user.credits}}</li>
-                    <li class="">Admin: {{user.admin}}</li>
-                </ul>
-            </div>
-`,
-
-    data: function () {
-        return {
-            selected: false,
-            specialSub: {
-                name: null,
-                type: null,
-                price: null,
-                startOfRegistration: null,
-                endOfRegistration: null,
-                durationMonths: null
-            },
-            normalSub:{
-                name: null,
-                type: null,
-                price: null,
-                durationMonths: null
-            }
-
-        }
-    }
-    ,
-    mounted() {
-        eventBus.$on('viewSub', sub => {
-            if(sub.type === 'special'){
-                this.specialSub = sub;
-            }
-            else if(sub.type === 'normal')
-            this.user = user;
-
-            this.selected = true
-        });
-
-    }
-})
-
 
 Vue.component('admin-page-component', {
     template: `
@@ -583,7 +665,7 @@ Vue.component('admin-page-component', {
             this.selectedClient = false;
         }
     },
-    computed:{
+    computed: {
         enableClientDetails: function () {
             return this.viewClients && this.selectedClient;
         }
@@ -600,7 +682,480 @@ Vue.component('admin-page-component', {
 
 // END COMPONENTS FOR ADMIN PAGE
 
+// COMPONENTS FOR FORUM PAGE
+
+Vue.component('forum', {
+    template: `
+    <div class="container">
+        <forum-posts v-show="viewPosts" ></forum-posts>    
+        <post-details v-show="viewPostDetails"></post-details>
+    </div>
+    `,
+    data: function () {
+        return {
+            viewPosts: true,
+            viewPostDetails: false
+        }
+    },
+    mounted() {
+        eventBus2.$on('showPost', post => {
+            this.viewPostDetails = true;
+            this.viewPosts = false;
+        });
+        eventBus.$on('goBack', post => {
+            this.viewPosts = true;
+            this.viewPostDetails = false;
+        });
+    }
+})
+
+Vue.component('forum-posts', {
+    template: `
+<div class="row">
+            <div class="col-2">
+                <h1 class="my-4 pt-5">
+               
+            </div>
+            <div class="col-5">
+              <h3 class="my-4 pt-5">Posts</h3>
+                <ul class="list-group ">
+                    <li class="list-group-item" v-for="post in posts"><a href="#" @click="viewPost(post)" class="float-left">Post title: {{post.title}}</a><a class="float-right">Posted by: {{post.client.username}}</a></li>
+                </ul>
+            </div>
+            <div class="col-5">
+
+            </div>
+        </div>
+    `,
+    data: function () {
+        return {
+            posts: []
+        }
+
+    },
+    methods: {
+        viewPost: function (post) {
+            eventBus.$emit('postDetails', post);
+            eventBus2.$emit('showPost', post)
+        }
+    },
+    mounted() {
+        var self = this
+        axios.get('http://localhost:8080/myPosts/')
+            .then(function (response) {
+                console.log(response.data); // ex.: { user: 'Your User'}
+                console.log(response.status); // ex.: 200
+                self.posts = response.data;
+            }).catch(function (error) {
+            console.log(error);
+
+        });
+    }
+})
+
+Vue.component('post-details', {
+    template: `
+<div class="row">
+            <div class="col-2">
+                <h1 class="my-4 pt-5">
+               <button class="btn btn-danger d-inline" @click="goBack()">Go back</button>
+            </div>
+            <div class="col-5">
+              <h3 class="my-4 pt-5">Post title: {{ post.title }}</h3>
+              <small>Posted by: {{ post.client.username }} </small>
+              <p>{{ post.text }}</p>
+                <ul class="list-group ">
+                    <p v-if="!comments.length">There are no comments yet. Be the first one to leave a comment on this post!</p>
+                    <div class="card " v-for="comment in comments" style="height: 100px;">
+                        <div class="card-title font-weight-bold card-header">Posted by: {{ comment.client.username }}</div>
+                        <div class="card-body" style="height: 100px;">{{ comment.text }}</div>
+                        <div class="card-footer"><button class="btn-success btn" @click.once="updateUpvotes(comment)">Up {{comment.upvotes}}</button><button class="btn btn-danger" @click.once="updateDownvotes(comment)">Down {{comment.downvotes}}</button></div>
+                    </div>
+                </ul>
+            </div>
+            <div class="col-5">
+             <h3 class="my-4 pt-5">Leave a comment</h3>
+                <form class="review-form" @submit.prevent="onSubmit">
+                  <p>
+                    <textarea  id="commentText" v-model="commentText"></textarea>
+                  </p>
+                      
+                  <p>
+                    <input type="submit" class="btn btn-outline-success" value="Submit">  
+                  </p>    
+    
+    </form>
+
+            </div>
+        </div>
+    `,
+    data: function () {
+        return {
+            post: null,
+            comments: [],
+            postTitle: "",
+            user: null,
+            commentText: "",
+
+        }
+    },
+    methods: {
+        onSubmit: function () {
+            var self = this
+            if (self.commentText.length > 0) {
+
+                $.ajax({
+                    url: 'http://localhost:8080/comments/addComment',
+                    type: 'post',
+                    data: {
+                        text: self.commentText,
+                        postTitle: self.post.title,
+                        username: self.user.username
+                    },
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    success: function (val) {
+                        self.user = val;
+                        console.log(val);
+                        console.log("success");
+                        self.getPostComments()
+                    },
+                    error: function (XMLHttpRequest, status, error) {
+                        alert("error")
+                    }
+                });
+                this.commentText = null
+            }
+            else {
+                alert("Comment cannot be empty")
+            }
+        }
+        ,
+        goBack: function () {
+            eventBus.$emit('goBack', self.post);
+        },
+        getPostComments: function () {
+            var self = this
+            axios.get('http://localhost:8080/comments/' + self.postTitle)
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    console.log("getting comments . " + self.postTitle);
+                    self.comments = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
+        },
+        updateUpvotes: function (comment) {
+            var self = this;
+            comment.upvotes += 1;
+            $.ajax({
+                url: 'http://localhost:8080/comments/vote',
+                type: 'post',
+                data: {
+                    text: comment.text,
+                    title: self.post.title,
+                    vote: "upvote"
+                },
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                success: function (val) {
+                    self.user = val;
+                    console.log(val);
+                    console.log("success");
+                    //   self.getPostComments()
+                },
+                error: function (XMLHttpRequest, status, error) {
+                    alert("error")
+                }
+            })
+
+        },
+        updateDownvotes: function (comment) {
+            var self = this;
+            console.log(comment.title);
+            comment.downvotes += 1;
+            $.ajax({
+                url: 'http://localhost:8080/comments/vote',
+                type: 'post',
+                data: {
+                    text: comment.text,
+                    title: self.post.title,
+                    vote: "downvote"
+                },
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                success: function (val) {
+                    self.user = val;
+                    console.log(val);
+                    console.log("success");
+                    //  self.getPostComments()
+                },
+                error: function (XMLHttpRequest, status, error) {
+                    alert("error")
+                }
+            })
+
+        }
+    },
+    mounted() {
+        eventBus.$on('postDetails', post => {
+            this.post = post;
+            this.postTitle = post.title;
+            console.log("========= post =========");
+            console.log(post.title)
+            console.log(post);
+            console.log("========= post =========");
+            var self = this;
+            axios.get('http://localhost:8080/comments/' + self.postTitle)
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    console.log("getting comments . " + self.postTitle);
+                    self.comments = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
+        });
+        eventBus3.$on('loggedUser', val => {
+            var self = this;
+            self.user = val
+        });
+
+
+    }
+})
+
+
+// END COMPONENTS FOR FORUM PAGE
+
+// COMPONENTS FOR MY PROfiLE PAGE
+
+
+Vue.component('my-subs', {
+    template: `
+        <div >
+        <h3 class="my-4 pt-5">Subscriptions</h3>
+                <ul class="list-group ">
+                    <li class="list-group-item" v-for="sub in normalSubs">
+                        <a href="#">{{ sub.name }}</a><br/>
+                        <a href="#">Price: {{ sub.price }}</a><br/>
+                        <a href="#">For: {{ sub.durationMonths }} month(s)</a>
+                    </li>
+                    <li class="list-group-item" v-for="sub in specialSubs">
+                        <a href="#">{{ sub.name }}</a><br/>
+                        <a href="#">Price: {{ sub.price }}</a><br/>
+                        <a href="#">For: {{ sub.durationMonths }} month(s)</a><br/>
+                    </li>
+                    <li class="list-group-item" v-for="sub in workoutSub">
+                        <a href="#">{{ sub.name }}</a><br/>
+                        <a href="#">Price: {{ sub.price }}</a><br/>
+                        <a href="#">For: {{ sub.numberOfDays }} days</a>
+                    </li>
+                </ul>
+</div>
+    `,
+    data: function () {
+        return {
+            normalSubs: [],
+            specialSubs: [],
+            workoutSub: [],
+            username: ""
+        }
+
+    },
+    methods: {
+        checkUsername: function () {
+            var self = this;
+            if (self.username.length > 0) {
+                self.updateLists();
+                console.log("adfasf");
+                console.log(self.username);
+                return true;
+            }
+            else {
+                return false;
+            }
+        },
+
+        updateLists: function () {
+            var self = this
+            axios.get('http://localhost:8080/workoutSubscriptions')
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    self.workoutSub = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
+            axios.get('http://localhost:8080/normalSubscriptions')
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    self.normalSubs = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
+            axios.get('http://localhost:8080/specialSubscriptions')
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    self.specialSubs = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
+        }
+    },
+    mounted() {
+        var self = this
+        eventBus5.$on('subscriptionEvent', username => {
+            self.username = username
+
+            axios.get('http://localhost:8080/myWorkoutSubscriptions/' + self.username)
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    self.workoutSub = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
+            axios.get('http://localhost:8080/myNormalSubscriptions/' + self.username)
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    self.normalSubs = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
+            axios.get('http://localhost:8080/mySpecialSubscriptions/' + self.username)
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    self.specialSubs = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
+        })
+    }
+})
+
+Vue.component('my-workouts', {
+    template: `
+<div class="container">
+    <div class="row">
+            <div class="col-6">
+              <h3 class="my-4 pt-5">My workouts</h3>
+                <ul class="list-group ">
+                    <li class="list-group-item"  v-for="workout in workouts"><a href="#" @click="viewWorkout(workout)" class="float-left">{{ workout.workoutName }} {{ workout.date }}</a></li>
+                </ul>
+                <button class="btn btn-primary">Add workout</button>
+            </div>
+            <div class="col-6">
+                <my-subs ></my-subs>
+            </div>
+        </div>
+        </div>
+    `,
+    data: function () {
+        return {
+            workouts: [],
+            username: null
+        }
+    },
+    methods: {
+        viewWorkout: function (workout) {
+            eventBus3.$emit('workoutDetails', workout)
+        },
+        checkIfWorkouts: function () {
+            var self = this;
+            if (self.workouts.length === 0) {
+                self.getWorkouts();
+                return true;
+            } else {
+                return false;
+            }
+        },
+        getWorkouts: function () {
+            var self = this
+            axios.get('http://localhost:8080/workouts/' + self.username)
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    console.log(self.username);
+                    console.log("GETTING WORKOUTS");
+                    self.workouts = response.data;
+                }).catch(function (error) {
+                console.log(error);
+                console.log("NOT GETTING WORKOUTS");
+
+            });
+        }
+    },
+    mounted() {
+
+        eventBus4.$on('userExercises', username => {
+            var self = this;
+            self.username = username;
+            console.log("something is happening");
+            self.getWorkouts();
+            eventBus5.$emit('subscriptionEvent', self.username)
+        });
+        // self.getWorkouts();
+
+    }
+})
+
+/*Vue.component('workout-details', {
+    template: `
+    <div class="row">
+         <ul class="list-group ">
+            <li class="list-group-item" v-for="exercise in exercise"><a href="#"class="float-left">Exercise: {{exercise.name}}</a></li>
+            </ul>
+</div>
+    `,
+    data: function () {
+        return {
+            exercises: [],
+            username: '',
+
+        }
+    },
+    mounted() {
+        eventBus3.$on('workoutDetails', workout => {
+            var self = this;
+            // zemi gi site exercises
+            // sets?? reps??
+
+            axios.get('http://localhost:8080/exercises/' + workout.workout_date + '/' + self.username)
+                .then(function (response) {
+                    console.log(response.data); // ex.: { user: 'Your User'}
+                    console.log(response.status); // ex.: 200
+                    self.exercises = response.data;
+                }).catch(function (error) {
+                console.log(error);
+
+            });
+        })
+    }
+})*/
+
+
+// END COMPONENTS FOR MY PROfiLE PAGE
+
 var eventBus = new Vue()
+
+var eventBus2 = new Vue()
+
+var eventBus3 = new Vue()
+
+var eventBus4 = new Vue()
+
+var eventBus5 = new Vue()
 
 var app = new Vue({
     el: '#app',
@@ -616,5 +1171,7 @@ var app = new Vue({
             isAdmin: "",
             admin: ""
         }
+    },
+    mounted() {
     }
 })
