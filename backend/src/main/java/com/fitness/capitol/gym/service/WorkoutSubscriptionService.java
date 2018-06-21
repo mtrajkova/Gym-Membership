@@ -8,4 +8,6 @@ public interface WorkoutSubscriptionService {
     List<WorkoutSubscription> findAll();
 
     void save(WorkoutSubscription workoutSubscription);
+
+    WorkoutSubscription findByName(String name);
 }

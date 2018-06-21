@@ -39,4 +39,5 @@ public class SubscriptionController {
         subscriptions.addAll(workoutSubscriptionRepository.findAll());
         return subscriptions;
     }
+
 }

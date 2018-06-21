@@ -3,7 +3,9 @@ package com.fitness.capitol.gym.controllers;
 import com.fitness.capitol.gym.model.*;
 import com.fitness.capitol.gym.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -29,13 +31,27 @@ public class User_SpecialSubscriptionController {
     }
 
     @RequestMapping(value = "/addSubscription", method = RequestMethod.POST)
-    private void addSpecialSubscription(@RequestParam("months") int months,
-                                        @RequestParam("name") String name,
-                                        @RequestParam("price") Long price,
-                                        @RequestParam("username") String username,
-                                        @RequestParam("startDate") String start,
-                                        @RequestParam("endDate") String end) {
-        String[] parts = start.split("\\.");
+    private ResponseEntity addSpecialSubscription(@RequestParam("months") int months,
+                                                  @RequestParam("name") String name,
+                                                  @RequestParam("price") Long price,
+                                                  @RequestParam("username") String username,
+                                                  @RequestParam("startDate") String start,
+                                                  @RequestParam("endDate") String end) {
+        SpecialSubscription specialSubscription = specialSubscriptionService.findByName(name);
+        Client client = userService.findByUsername(username);
+
+        if (specialSubscription == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This subscription doesn't exist");
+        } else if (user_specialSubscriptionService.findByClientAndSpecialSubscription(client, specialSubscription) != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You have already subscribed to this subscription!");
+        } else if (client.getCredits() < price) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not enough credits!");
+        } else {
+            client.setCredits((int) (client.getCredits() - price));
+            user_specialSubscriptionService.save(specialSubscription, client);
+            return ResponseEntity.status(HttpStatus.OK).body("Subscribed!");
+        }
+        /*String[] parts = start.split("\\.");
         Date startDate = new Date();
         long time = 0;
         time = Integer.parseInt(parts[0]) + Integer.parseInt(parts[1]) + Integer.parseInt(parts[2]);
@@ -50,8 +66,7 @@ public class User_SpecialSubscriptionController {
         specialSubscription.setSuper(name, price);
         specialSubscription.setEndOfRegistration(endDate);
         specialSubscription.setStartOfRegistration(startDate);
-        specialSubscriptionService.save(specialSubscription);
-        Client client = userService.findByUsername(username);
-        user_specialSubscriptionService.save(specialSubscription, client);
+        specialSubscriptionService.save(specialSubscription);*/
+
     }
 }

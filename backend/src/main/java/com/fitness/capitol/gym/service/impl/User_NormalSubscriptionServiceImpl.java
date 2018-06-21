@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,6 +32,13 @@ public class User_NormalSubscriptionServiceImpl implements User_NormalSubscripti
         Client_NormalSubscription client_normalSubscription = new Client_NormalSubscription();
         client_normalSubscription.setClient(client);
         client_normalSubscription.setNormalSubscription(normalSubscription);
+        Date date = new Date();
+        client_normalSubscription.setDateOfRegistration(date);
         user_normalSubscriptionRepository.save(client_normalSubscription);
+    }
+
+    @Override
+    public Client_NormalSubscription findByClientAndNormalSubscription(Client client, NormalSubscription normalSubscription) {
+        return user_normalSubscriptionRepository.findByClientAndNormalSubscription(client,normalSubscription);
     }
 }

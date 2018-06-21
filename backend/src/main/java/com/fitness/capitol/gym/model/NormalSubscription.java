@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -58,6 +59,7 @@ public class NormalSubscription implements Serializable {
     public void setDurationMonths(int durationMonths) {
         this.durationMonths = durationMonths;
     }
+
 
     @Override
     public boolean equals(Object o) {

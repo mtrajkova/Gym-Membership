@@ -16,7 +16,7 @@ public class SpecialSubscription implements Serializable {
     private Date endOfRegistration;
     private int durationMonths;
 
-
+    private boolean isAvailable;
     private String name;
     private Long price;
 
@@ -24,14 +24,22 @@ public class SpecialSubscription implements Serializable {
     public SpecialSubscription() {
     }
 
-    public SpecialSubscription(Date startOfRegistration, Date endOfRegistration, int durationMonths,String name, Long price){
-        this.startOfRegistration=startOfRegistration;
-        this.endOfRegistration=endOfRegistration;
-        this.durationMonths=durationMonths;
-        this.price=price;
-        this.name=name;
+    public SpecialSubscription(Date startOfRegistration, Date endOfRegistration, int durationMonths, String name, Long price) {
+        this.startOfRegistration = startOfRegistration;
+        this.endOfRegistration = endOfRegistration;
+        this.durationMonths = durationMonths;
+        this.price = price;
+        this.name = name;
+        this.isAvailable = true;
     }
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
 
     public Long getId() {
         return id;
@@ -81,7 +89,7 @@ public class SpecialSubscription implements Serializable {
         this.durationMonths = durationMonths;
     }
 
-    public void setSuper(String name, Long price){
+    public void setSuper(String name, Long price) {
         this.setName(name);
         this.setPrice(price);
     }
@@ -93,6 +101,7 @@ public class SpecialSubscription implements Serializable {
         if (!(o instanceof SpecialSubscription)) return false;
         SpecialSubscription that = (SpecialSubscription) o;
         return getDurationMonths() == that.getDurationMonths() &&
+                isAvailable() == that.isAvailable() &&
                 Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getStartOfRegistration(), that.getStartOfRegistration()) &&
                 Objects.equals(getEndOfRegistration(), that.getEndOfRegistration()) &&
@@ -103,6 +112,6 @@ public class SpecialSubscription implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getStartOfRegistration(), getEndOfRegistration(), getDurationMonths(), getName(), getPrice());
+        return Objects.hash(getId(), getStartOfRegistration(), getEndOfRegistration(), getDurationMonths(), isAvailable(), getName(), getPrice());
     }
 }

@@ -85,4 +85,15 @@ public class Exercise_WorkoutController {
 
     }
 
+   /* @RequestMapping(value = "/delete/{exerciseName}/{workoutDate}/{username}", method = RequestMethod.DELETE)
+    public void deleteExerciseForWorkout(@PathVariable("exerciseName") String name, @PathVariable("workoutDate") String workoutDate, @PathVariable("username") String username) {
+        Exercise exercise = exerciseService.findByName(name);
+        String[] parts = workoutDate.split("\\.");
+        long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
+        Date date = new Date();
+        date.setTime(time);
+        Workout workout = workoutService.findByDate(date, userService.findByUsername(username));
+        workout_exerciseService.deleteByExerciseAndWorkout(exercise, workout);
+    }*/
+
 }

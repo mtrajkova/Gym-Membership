@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface WorkoutSubscriptionRepository extends JpaRepository<WorkoutSubscription,Long> {
     List<WorkoutSubscription> findAll();
+    WorkoutSubscription findByName(String name);
 }

@@ -22,4 +22,9 @@ public class NormalSubscriptionServiceImpl implements NormalSubscriptionService 
     public void save(NormalSubscription normalSubscription) {
         normalSubscriptionRepository.save(normalSubscription);
     }
+
+    @Override
+    public NormalSubscription findByName(String name) {
+        return normalSubscriptionRepository.findByName(name);
+    }
 }

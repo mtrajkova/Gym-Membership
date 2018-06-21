@@ -3,6 +3,7 @@ package com.fitness.capitol.gym.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +15,8 @@ public class Client_NormalSubscription implements Serializable {
     private LocalDateTime datePaused;
     private LocalDateTime dateStarted;
 
+    private Date dateOfRegistration;
+
     @JoinColumn
     @ManyToOne
     private Client client;
@@ -21,6 +24,14 @@ public class Client_NormalSubscription implements Serializable {
     @JoinColumn
     @ManyToOne
     private NormalSubscription normalSubscription;
+
+    public Date getDateOfRegistration() {
+        return dateOfRegistration;
+    }
+
+    public void setDateOfRegistration(Date dateOfRegistration) {
+        this.dateOfRegistration = dateOfRegistration;
+    }
 
     public Long getId() {
         return id;
@@ -62,6 +73,7 @@ public class Client_NormalSubscription implements Serializable {
         this.normalSubscription = normalSubscription;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,6 +82,7 @@ public class Client_NormalSubscription implements Serializable {
         return Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getDatePaused(), that.getDatePaused()) &&
                 Objects.equals(getDateStarted(), that.getDateStarted()) &&
+                Objects.equals(getDateOfRegistration(), that.getDateOfRegistration()) &&
                 Objects.equals(getClient(), that.getClient()) &&
                 Objects.equals(getNormalSubscription(), that.getNormalSubscription());
     }
@@ -77,6 +90,6 @@ public class Client_NormalSubscription implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getDatePaused(), getDateStarted(), getClient(), getNormalSubscription());
+        return Objects.hash(getId(), getDatePaused(), getDateStarted(), getDateOfRegistration(), getClient(), getNormalSubscription());
     }
 }

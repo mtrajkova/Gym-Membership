@@ -32,4 +32,9 @@ public class User_SpecialSubscriptionServiceImpl implements User_SpecialSubscrip
         client_specialSubscription.setSpecialSubscription(specialSubscription);
         user_specialSubscriptionRepository.save(client_specialSubscription);
     }
+
+    @Override
+    public Client_SpecialSubscription findByClientAndSpecialSubscription(Client client, SpecialSubscription specialSubscription) {
+        return user_specialSubscriptionRepository.findByClientAndSpecialSubscription(client, specialSubscription);
+    }
 }

@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface Exercise_WorkoutRepository extends JpaRepository<Workout_Exercise,Long> {
     List<Workout_Exercise> findAllByWorkout(Workout workout);
+    void deleteByExerciseAndWorkout(Exercise exercise, Workout workout);
 }

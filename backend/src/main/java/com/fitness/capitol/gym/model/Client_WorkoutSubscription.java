@@ -14,6 +14,8 @@ public class Client_WorkoutSubscription implements Serializable {
     private LocalDateTime datePaused;
     private LocalDateTime dateStarted;
 
+    private int workoutsLeft;
+
     @JoinColumn
     @ManyToOne
     private Client client;
@@ -21,6 +23,14 @@ public class Client_WorkoutSubscription implements Serializable {
     @JoinColumn
     @ManyToOne
     private WorkoutSubscription workoutSubscription;
+
+    public int getWorkoutsLeft() {
+        return workoutsLeft;
+    }
+
+    public void setWorkoutsLeft(int workoutsLeft) {
+        this.workoutsLeft = workoutsLeft;
+    }
 
     public Long getId() {
         return id;
@@ -67,7 +77,8 @@ public class Client_WorkoutSubscription implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Client_WorkoutSubscription)) return false;
         Client_WorkoutSubscription that = (Client_WorkoutSubscription) o;
-        return Objects.equals(getId(), that.getId()) &&
+        return getWorkoutsLeft() == that.getWorkoutsLeft() &&
+                Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getDatePaused(), that.getDatePaused()) &&
                 Objects.equals(getDateStarted(), that.getDateStarted()) &&
                 Objects.equals(getClient(), that.getClient()) &&
@@ -77,6 +88,6 @@ public class Client_WorkoutSubscription implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getDatePaused(), getDateStarted(), getClient(), getWorkoutSubscription());
+        return Objects.hash(getId(), getDatePaused(), getDateStarted(), getWorkoutsLeft(), getClient(), getWorkoutSubscription());
     }
 }

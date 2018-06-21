@@ -8,5 +8,7 @@ public interface NormalSubscriptionService {
     List<NormalSubscription> findAll();
 
     void save(NormalSubscription normalSubscription);
+
+    NormalSubscription findByName(String name);
 }
 

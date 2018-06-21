@@ -24,4 +24,9 @@ public class Workout_ExerciseServiceImpl implements Workout_ExerciseService {
     public void saveExerciseForWorkout(Workout_Exercise workout_exercise) {
         exercise_workoutRepository.save(workout_exercise);
     }
+
+    @Override
+    public void deleteByExerciseAndWorkout(Exercise exercise, Workout workout) {
+        exercise_workoutRepository.deleteByExerciseAndWorkout(exercise,workout);
+    }
 }

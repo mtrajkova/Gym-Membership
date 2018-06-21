@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface NormalSubscriptionRepository extends JpaRepository<NormalSubscription, Long> {
     List<NormalSubscription> findAll();
+    NormalSubscription findByName(String name);
 }

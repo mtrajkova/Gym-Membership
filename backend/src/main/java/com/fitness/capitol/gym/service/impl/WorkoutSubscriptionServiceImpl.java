@@ -23,4 +23,9 @@ public class WorkoutSubscriptionServiceImpl implements WorkoutSubscriptionServic
     public void save(WorkoutSubscription workoutSubscription) {
         workoutSubscriptionRepository.save(workoutSubscription);
     }
+
+    @Override
+    public WorkoutSubscription findByName(String name) {
+        return workoutSubscriptionRepository.findByName(name);
+    }
 }

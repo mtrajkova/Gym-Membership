@@ -11,5 +11,8 @@ public interface Workout_ExerciseService {
 
     void saveExerciseForWorkout(Workout_Exercise workout_exercise);
 
+    void deleteByExerciseAndWorkout(Exercise exercise, Workout workout);
+
+
 }
 

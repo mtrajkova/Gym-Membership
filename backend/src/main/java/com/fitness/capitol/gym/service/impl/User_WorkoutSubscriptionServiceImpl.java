@@ -34,4 +34,14 @@ public class User_WorkoutSubscriptionServiceImpl implements User_WorkoutSubscrip
         client_workoutSubscription.setWorkoutSubscription(workoutSubscription);
         user_workoutSubscriptionRepository.save(client_workoutSubscription);
     }
+
+    @Override
+    public Client_WorkoutSubscription findByClientAndWorkoutSubscription(Client client, WorkoutSubscription workoutSubscription) {
+        return user_workoutSubscriptionRepository.findByClientAndWorkoutSubscription(client,workoutSubscription);
+    }
+
+    @Override
+    public void deleteClient_WorkoutSubscriptionByClientAndWorkoutSubscription(Client client, WorkoutSubscription workoutSubscription) {
+        user_workoutSubscriptionRepository.deleteClient_WorkoutSubscriptionByClientAndWorkoutSubscription(client,workoutSubscription);
+    }
 }

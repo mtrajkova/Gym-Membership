@@ -22,4 +22,11 @@ public class SpecialSubscriptionServiceImpl implements SpecialSubscriptionServic
     public void save(SpecialSubscription specialSubscription) {
         specialSubscriptionRepository.save(specialSubscription);
     }
+
+    @Override
+    public SpecialSubscription findByName(String name) {
+        return specialSubscriptionRepository.findByName(name);
+    }
+
+
 }
