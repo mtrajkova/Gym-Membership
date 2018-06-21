@@ -6,6 +6,7 @@ import com.fitness.capitol.gym.service.SpecialSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,7 +16,12 @@ public class SpecialSubscriptionServiceImpl implements SpecialSubscriptionServic
 
     @Override
     public List<SpecialSubscription> findAll() {
-        return specialSubscriptionRepository.findAll();
+        List<SpecialSubscription> specialSubscriptions = new ArrayList<>();
+        for (SpecialSubscription specialSubscription : specialSubscriptionRepository.findAll()) {
+            if (specialSubscription.isAvailable())
+                specialSubscriptions.add(specialSubscription);
+        }
+        return specialSubscriptions;
     }
 
     @Override

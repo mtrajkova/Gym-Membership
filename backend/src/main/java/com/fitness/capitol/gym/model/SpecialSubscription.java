@@ -12,8 +12,8 @@ public class SpecialSubscription implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private Date startOfRegistration;
-    private Date endOfRegistration;
+    private String startOfRegistration;
+    private String endOfRegistration;
     private int durationMonths;
 
     private boolean isAvailable;
@@ -24,7 +24,7 @@ public class SpecialSubscription implements Serializable {
     public SpecialSubscription() {
     }
 
-    public SpecialSubscription(Date startOfRegistration, Date endOfRegistration, int durationMonths, String name, Long price) {
+    public SpecialSubscription(String startOfRegistration, String endOfRegistration, int durationMonths, String name, Long price) {
         this.startOfRegistration = startOfRegistration;
         this.endOfRegistration = endOfRegistration;
         this.durationMonths = durationMonths;
@@ -65,19 +65,19 @@ public class SpecialSubscription implements Serializable {
         this.price = price;
     }
 
-    public Date getStartOfRegistration() {
+    public String getStartOfRegistration() {
         return startOfRegistration;
     }
 
-    public void setStartOfRegistration(Date startOfRegistration) {
+    public void setStartOfRegistration(String startOfRegistration) {
         this.startOfRegistration = startOfRegistration;
     }
 
-    public Date getEndOfRegistration() {
+    public String getEndOfRegistration() {
         return endOfRegistration;
     }
 
-    public void setEndOfRegistration(Date endOfRegistration) {
+    public void setEndOfRegistration(String endOfRegistration) {
         this.endOfRegistration = endOfRegistration;
     }
 
