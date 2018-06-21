@@ -1,6 +1,7 @@
 package com.fitness.capitol.gym.controllers;
 
 import com.fitness.capitol.gym.model.Client;
+import com.fitness.capitol.gym.model.Client_NormalSubscription;
 import com.fitness.capitol.gym.model.NormalSubscription;
 import com.fitness.capitol.gym.service.NormalSubscriptionService;
 import com.fitness.capitol.gym.service.UserService;
@@ -11,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,8 +31,26 @@ public class User_NormalSubscriptionController {
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     private List<NormalSubscription> getMyNormals(@PathVariable("username") String username) {
-        Client client = userService.findByUsername(username);
-        return user_normalSubscriptionService.getAllNormalsByClient(client);
+        /*Client client = userService.findByUsername(username);
+        List<NormalSubscription> normalSubscriptions = new ArrayList<>();
+        for (Client_NormalSubscription client_normalSubscription : user_normalSubscriptionService.getNormalSubsAndClientByClient(client)) {
+            LocalDateTime date = client_normalSubscription.getDateStarted();
+
+            int months = client_normalSubscription.getNormalSubscription().getDurationMonths();
+            LocalDateTime now = LocalDateTime.now();
+            if (now.getYear() == date.getYear()) {
+                if (now.getMonthValue() <= date.getMonthValue()) {
+                    if (now.getMonthValue() == date.getMonthValue()) {
+                        if (now.getDayOfMonth() <= date.getDayOfMonth()) {
+                            normalSubscriptions.add(client_normalSubscription.getNormalSubscription());
+                        }
+                    } else normalSubscriptions.add(client_normalSubscription.getNormalSubscription());
+                }
+            }
+        }*/
+
+
+        return user_normalSubscriptionService.getAllNormalsByClient(userService.findByUsername(username));
     }
 
     @RequestMapping(value = "/addSubscription", method = RequestMethod.POST)

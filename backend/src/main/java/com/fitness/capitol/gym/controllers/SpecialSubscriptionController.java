@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class SpecialSubscriptionController {
         if (specialSubscription != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This subscription already exists!");
         } else {
-
+            specialSubscription = new SpecialSubscription();
             specialSubscription = new SpecialSubscription(start, end, months, name, price);
             specialSubscriptionService.save(specialSubscription);
 
@@ -48,5 +49,17 @@ public class SpecialSubscriptionController {
         specialSubscriptionService.save(specialSubscription);
         return ResponseEntity.status(HttpStatus.OK).body("Availability changed!");
 
+    }
+
+    @RequestMapping(value = "/forUsers", method = RequestMethod.GET)
+    public List<SpecialSubscription> getWorkoutSubsForUsers() {
+        List<SpecialSubscription> specialSubscriptions = new ArrayList<>();
+
+        for (SpecialSubscription specialSubscription : specialSubscriptionService.findAll()) {
+            if (specialSubscription.isAvailable())
+                specialSubscriptions.add(specialSubscription);
+        }
+
+        return specialSubscriptions;
     }
 }

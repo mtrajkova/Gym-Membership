@@ -13,4 +13,6 @@ public interface User_NormalSubscriptionService {
 
     Client_NormalSubscription findByClientAndNormalSubscription(Client client, NormalSubscription normalSubscription);
 
+    List<Client_NormalSubscription> getNormalSubsAndClientByClient(Client client);
+
 }

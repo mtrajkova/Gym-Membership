@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -47,6 +48,18 @@ public class WorkoutSubscriptionController {
         workoutSubscriptionService.save(workoutSubscription);
         return ResponseEntity.status(HttpStatus.OK).body("Availability changed!");
 
+    }
+
+    @RequestMapping(value = "/forUsers", method = RequestMethod.GET)
+    public List<WorkoutSubscription> getWorkoutSubsForUsers() {
+        List<WorkoutSubscription> workoutSubscriptions = new ArrayList<>();
+
+        for (WorkoutSubscription workoutSubscription : workoutSubscriptionService.findAll()) {
+            if (workoutSubscription.isAvailable())
+                workoutSubscriptions.add(workoutSubscription);
+        }
+
+        return workoutSubscriptions;
     }
 
 }

@@ -39,6 +39,11 @@ public class User_NormalSubscriptionServiceImpl implements User_NormalSubscripti
 
     @Override
     public Client_NormalSubscription findByClientAndNormalSubscription(Client client, NormalSubscription normalSubscription) {
-        return user_normalSubscriptionRepository.findByClientAndNormalSubscription(client,normalSubscription);
+        return user_normalSubscriptionRepository.findByClientAndNormalSubscription(client, normalSubscription);
+    }
+
+    @Override
+    public List<Client_NormalSubscription> getNormalSubsAndClientByClient(Client client) {
+        return user_normalSubscriptionRepository.findAllByClient(client);
     }
 }
