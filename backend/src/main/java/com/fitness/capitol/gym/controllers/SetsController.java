@@ -31,27 +31,59 @@ public class SetsController {
     @RequestMapping(value = "/{username}/{workoutDate}/{exercise}", method = RequestMethod.GET)
     public List<Sets> getAllSets(@PathVariable("workoutDate") String workoutDate,
                                  @PathVariable("username") String username,
-                                 @PathVariable("exercise") String exerciseName) {
+                                 @PathVariable("exercise") String exerciseName,
+                                 @PathVariable("workoutName") String workoutName) {
         String[] parts = workoutDate.split("\\.");
        /* Date date = new Date();
         long time = Long.parseLong(parts[0]) + Long.parseLong(parts[1]) + Long.parseLong(parts[2]);
         date.setTime(time);*/
         LocalDateTime date = LocalDateTime.of(Integer.parseInt(parts[2]), Integer.parseInt(parts[1]), Integer.parseInt(parts[0]), 0, 0);
         Client client = userService.findByUsername(username);
-        Workout workout = workoutService.findByDate(date, client);
+        List<Workout> workouts = workoutService.findAllByDateAndClient(date, client);
+        Workout workout = new Workout();
         Exercise exercise = new Exercise();
         List<Exercise> exercises = new ArrayList<>();
-        List<Workout_Exercise> workout_exercises = workout_exerciseService.findAllByWorkout(workout);
-        for (Workout_Exercise we : workout_exercises) {
-            exercises.add(we.getExercise());
-        }
-        for (Exercise ex : exercises) {
-            if (ex.getName().equals(exerciseName)) {
-                exercise = ex;
+
+        List<Workout_Exercise> workout_exercises = new ArrayList<>();
+
+        if (workouts.size() == 1) {
+            workout = workoutService.findByDateAndWorkoutNameAndClient(date, workoutName, client);
+
+            workout_exercises = workout_exerciseService.findAllByWorkout(workout);
+            for (Workout_Exercise we : workout_exercises) {
+                exercises.add(we.getExercise());
             }
+            for (Exercise ex : exercises) {
+                if (ex.getName().equals(exerciseName)) {
+                    exercise = ex;
+                }
+            }
+
+            return setsService.findAllByExercise(exercise);
+        } else {
+            for (Workout w : workouts) {
+                if (w.getWorkoutName().equals(workoutName))
+                    workout = w;
+            }
+
+
+            exercises = new ArrayList<>();
+            workout_exercises = workout_exerciseService.findAllByWorkout(workout);
+            for (Workout_Exercise we : workout_exercises) {
+                exercises.add(we.getExercise());
+            }
+            for (Exercise ex : exercises) {
+                if (ex.getName().equals(exerciseName)) {
+                    exercise = ex;
+                }
+            }
+
+            return setsService.findAllByExercise(exercise);
         }
-        return setsService.findAllByExercise(exercise);
+
+
     }
+
 
     @RequestMapping(value = "/addSet", method = RequestMethod.POST)
     public ResponseEntity addSet(@RequestParam("workoutDate") String workoutDate,
@@ -118,4 +150,5 @@ public class SetsController {
 
 
     }
+
 }

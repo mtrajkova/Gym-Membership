@@ -38,7 +38,7 @@ public class UserController {
         if(admin.isAdmin()) {
             Client client = userService.findByUsername(username);
             client.setCredits(client.getCredits() + credits);
-
+            userService.save(client);
             return ResponseEntity.status(HttpStatus.OK).body("Credits added!");
         }
         else{
