@@ -32,12 +32,10 @@ public class User_SpecialSubscriptionController {
     }
 
     @RequestMapping(value = "/addSubscription", method = RequestMethod.POST)
-    private ResponseEntity addSpecialSubscription(@RequestParam("months") int months,
-                                                  @RequestParam("name") String name,
-                                                  @RequestParam("price") Long price,
-                                                  @RequestParam("username") String username,
-                                                  @RequestParam("startDate") String start,
-                                                  @RequestParam("endDate") String end) {
+    private ResponseEntity addSpecialSubscription(
+            @RequestParam("name") String name,
+            @RequestParam("price") int price,
+            @RequestParam("username") String username) {
         SpecialSubscription specialSubscription = specialSubscriptionService.findByName(name);
         Client client = userService.findByUsername(username);
 

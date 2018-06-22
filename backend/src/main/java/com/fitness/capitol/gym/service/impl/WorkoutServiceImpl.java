@@ -47,4 +47,9 @@ public class WorkoutServiceImpl implements WorkoutService {
     public Workout findByDateAndWorkoutNameAndClient(LocalDateTime date, String workoutName, Client client) {
         return workoutRepository.findByDateAndWorkoutNameAndClient(date, workoutName, client);
     }
+
+    @Override
+    public List<Workout> findAllByDateAndClient(LocalDateTime date, Client client) {
+        return workoutRepository.findAllByDateAndClient(date,client);
+    }
 }

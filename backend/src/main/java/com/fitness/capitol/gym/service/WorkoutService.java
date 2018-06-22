@@ -20,4 +20,6 @@ public interface WorkoutService {
 
     Workout findByDateAndWorkoutNameAndClient(LocalDateTime date, String workoutName, Client client);
 
+    List<Workout> findAllByDateAndClient(LocalDateTime date, Client client);
+
 }

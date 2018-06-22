@@ -34,7 +34,7 @@ public class User_WorkoutSubscriptionController {
     }
 
     @RequestMapping(value = "/addSubscription", method = RequestMethod.POST)
-    public ResponseEntity addWorkoutSubscription(@RequestParam("days") int days,
+    public ResponseEntity addWorkoutSubscription(
                                                  @RequestParam("name") String name,
                                                  @RequestParam("price") Long price,
                                                  @RequestParam("username") String username) {
