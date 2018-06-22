@@ -28,7 +28,7 @@ public class SetsController {
     @Autowired
     private WorkoutService workoutService;
 
-    @RequestMapping(value = "/{username}/{workoutDate}/{exercise}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{username}/{workoutDate}/{exercise}/{workoutName}", method = RequestMethod.GET)
     public List<Sets> getAllSets(@PathVariable("workoutDate") String workoutDate,
                                  @PathVariable("username") String username,
                                  @PathVariable("exercise") String exerciseName,

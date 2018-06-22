@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,5 +58,27 @@ public class UserController {
         userService.save(user);
     }
 
+    @RequestMapping(value = "/removeAdmin", method = RequestMethod.PATCH)
+    public ResponseEntity removeAdmin(@RequestParam("from") String usernameFrom, @RequestParam("for") String usernameFor,
+                            @RequestParam("newCredits")Optional<Integer> newCredits,
+                            @RequestParam("newAdmin") Optional<Boolean> newAdmin,
+                            @RequestParam("newName") Optional<String> newName,
+                            @RequestParam("newPassword") Optional<String> newPassword,
+                            @RequestParam("newPhone") Optional<String> newPhone
+                            ) throws UserParameterNotFoundException, UserAlreadyExistsException {
+        Client admin = userService.findByUsername(usernameFrom);
+        Client user = userService.findByUsername(usernameFor);
+        user.setCredits(newCredits.orElse(user.getCredits()));
+        user.setAdmin(newAdmin.orElse(user.isAdmin()));
+        user.setName(newName.orElse(user.getName()));
+        user.setPassword(newPassword.orElse(user.getPassword()));
+        /*if (admin.isAdmin()) {
+            user.setAdmin(false);
+        }*/
+        user.setPhone(newPhone.orElse(user.getPhone()));
+
+        userService.save(user);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
 
 }
